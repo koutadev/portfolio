@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+# 🎨 Portfolio - Kouta
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+元寿司職人 → PHPバックエンドエンジニアのポートフォリオサイト。
 
-Currently, two official plugins are available:
+## 🔗 URL
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 
-## React Compiler
+## ⚡ 技術スタック
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| カテゴリ | 技術 |
+|---------|------|
+| Frontend | React / TypeScript |
+| Build | Vite |
+| Styling | Tailwind CSS |
+| Deploy | Vercel |
+| Font | Noto Serif JP / Zen Kaku Gothic New / JetBrains Mono |
 
-## Expanding the ESLint configuration
+## 🎯 デザインコンセプト
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**「和モダン」** — 寿司職人の経験とテクノロジーの融合
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- ダークテーマ（漆黒）+ 金色アクセント
+- 日本語セリフ体の見出し + モノスペースのラベル
+- スクロール連動のフェードインアニメーション
+- グレインテクスチャによるフィルム感
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📐 セクション構成
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Hero** — キャッチコピー「元寿司職人。コードで、ビジネスを握る。」
+- **About** — キャリアストーリー（寿司職人 → エンジニア）
+- **Achievements** — 数字で語る実績（SQL 60倍高速化 等）
+- **Skills** — 技術スタック（Backend / Frontend / DevOps / AI Tools）
+- **Works** — Store Dashboard + 実務での成果
+- **Career** — タイムライン形式の経歴
+- **Contact** — お問い合わせ
+
+## 🚀 セットアップ
+```bash
+git clone https://github.com/kt040403/portfolio.git
+cd portfolio
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+http://localhost:5173 でアクセス
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 👤 作者
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Kouta** - 元寿司職人 → PHP バックエンドエンジニア
+
+- GitHub: [@kt040403](https://github.com/kt040403)
+- Store Dashboard: [GitHub](https://github.com/kt040403/store-dashboard)
