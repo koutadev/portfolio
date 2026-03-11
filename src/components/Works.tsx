@@ -87,7 +87,7 @@ export default function Works() {
           </div>
           <div className="flex gap-4">
             <a
-              href="https://github.com/kt040403/store-dashboard"
+              href="https://github.com/koutadev/store-dashboard"
               target="_blank"
               rel="noopener noreferrer"
               className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"

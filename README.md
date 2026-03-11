@@ -37,7 +37,7 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 
 ## 🚀 セットアップ
 ```bash
-git clone https://github.com/kt040403/portfolio.git
+git clone https://github.com/koutadev/portfolio.git
 cd portfolio
 npm install
 npm run dev
@@ -49,5 +49,5 @@ http://localhost:5173 でアクセス
 
 **Kouta** - 元寿司職人 → PHP バックエンドエンジニア
 
-- GitHub: [@kt040403](https://github.com/kt040403)
-- Store Dashboard: [GitHub](https://github.com/kt040403/store-dashboard)
+- GitHub: [@koutadev](https://github.com/koutadev)
+- Store Dashboard: [GitHub](https://github.com/koutadev/store-dashboard)

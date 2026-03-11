@@ -70,7 +70,7 @@
 - タイトル: "プロジェクト"
 
 #### Featured Project: Store Dashboard
-- GitHub: https://github.com/kt040403/store-dashboard
+- GitHub: https://github.com/koutadev/store-dashboard
 - Live Demo: （デプロイ後にURL追加）
 - 説明: 複数店舗の売上データを一元管理するダッシュボードアプリケーション。KPIカード、Chart.jsによる3種のグラフ、売上CRUD、Excel/CSVエクスポート、店舗管理、ユーザー権限制御まで実装。43件のFeature Testで品質を担保。
 - 技術タグ: PHP 8.3, Laravel 11, PostgreSQL 16, Chart.js, Tailwind CSS, Docker, GitHub Actions
@@ -93,7 +93,7 @@
 - セクション番号: "05 — CONTACT"
 - タイトル: "お問い合わせ"
 - 説明: お仕事のご相談・ご質問など、お気軽にご連絡ください。
-- ボタン: Mail / GitHub（https://github.com/kt040403）
+- ボタン: Mail / GitHub（https://github.com/koutadev）
 
 ### 9. Footer
 - ロゴ: "KOUTA"

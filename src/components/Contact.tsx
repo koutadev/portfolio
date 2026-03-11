@@ -40,7 +40,7 @@ export default function Contact() {
             Mail
           </a>
           <a
-            href="https://github.com/kt040403"
+            href="https://github.com/koutadev"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block border border-accent text-accent text-sm font-[family-name:var(--font-mono)] uppercase tracking-[3px] hover:bg-accent hover:text-bg transition-all duration-300 text-center"
