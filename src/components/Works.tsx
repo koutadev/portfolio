@@ -1,6 +1,6 @@
 import { useInView } from '../hooks/useInView'
 
-const techTags = [
+const storeDashboardTags = [
   'PHP 8.3',
   'Laravel 11',
   'PostgreSQL 16',
@@ -8,6 +8,17 @@ const techTags = [
   'Tailwind CSS',
   'Docker',
   'GitHub Actions',
+]
+
+const studyFlowTags = [
+  'Next.js 14',
+  'TypeScript',
+  'Supabase',
+  'PostgreSQL',
+  'Claude API',
+  'Stripe',
+  'Tailwind CSS',
+  'Vercel',
 ]
 
 const workExperience = [
@@ -32,8 +43,8 @@ export default function Works() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="works" className="py-20 md:py-[160px]" ref={ref}>
-      <div className="max-w-[1000px] mx-auto px-5 md:px-10">
+    <section id="works" className="py-24 md:py-32 px-6" ref={ref}>
+      <div className="max-w-6xl mx-auto">
         <div
           className="fade-up"
           style={{
@@ -49,34 +60,33 @@ export default function Works() {
           </h2>
         </div>
 
-        {/* Featured Project */}
+        {/* Store Dashboard */}
         <div
-          className="fade-up rounded-lg mb-12 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300"
+          className="fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 mb-8 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300"
           style={{
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)',
-            padding: '40px',
             transitionDelay: '0.1s',
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(196, 132, 29, 0.3)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="font-[family-name:var(--font-mono)] text-xs text-accent bg-accent/10 px-2 py-1 rounded">
               Featured
+            </span>
+            <span className="font-[family-name:var(--font-mono)] text-xs text-text-muted bg-white/5 px-2 py-1 rounded">
+              Backend
             </span>
             <h3 className="font-[family-name:var(--font-serif-jp)] text-xl md:text-2xl font-bold">
               Store Dashboard
             </h3>
           </div>
           <p className="text-text-secondary leading-relaxed mb-6">
-            複数店舗の売上データを一元管理するダッシュボードアプリケーション。KPIカード、Chart.jsによる3種のグラフ、売上CRUD、Excel/CSVエクスポート、店舗管理、ユーザー権限制御まで実装。43件のFeature
+            複数店舗の売上データを一元管理するダッシュボードアプリケーション。KPI
+            5種（前年同月比含む）、期間フィルター、Chart.jsによる3種のグラフ（前年比較付き）、売上CRUD、CSVインポート/エクスポート、店舗管理、ユーザー権限制御まで実装。58件のFeature
             Testで品質を担保。
           </p>
           <div className="flex flex-wrap gap-2 mb-6">
-            {techTags.map((tag) => (
+            {storeDashboardTags.map((tag) => (
               <span
                 key={tag}
                 className="font-[family-name:var(--font-mono)] text-xs text-text-muted border border-white/[0.06] px-2 py-1 rounded"
@@ -92,7 +102,62 @@ export default function Works() {
               rel="noopener noreferrer"
               className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
             >
-              GitHub &rarr;
+              {'GitHub →'}
+            </a>
+          </div>
+        </div>
+
+        {/* StudyFlow */}
+        <div
+          className="fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 mb-12 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300"
+          style={{
+            transitionDelay: '0.15s',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+          }}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-[family-name:var(--font-mono)] text-xs text-accent bg-accent/10 px-2 py-1 rounded">
+              Featured
+            </span>
+            <span className="font-[family-name:var(--font-mono)] text-xs text-text-muted bg-white/5 px-2 py-1 rounded">
+              AI-Powered SaaS
+            </span>
+            <h3 className="font-[family-name:var(--font-serif-jp)] text-xl md:text-2xl font-bold">
+              StudyFlow
+            </h3>
+          </div>
+          <p className="text-text-secondary leading-relaxed mb-6">
+            AIが最適な学習計画を生成する学習管理プラットフォーム。ダッシュボード、目標管理、学習記録、ポモドーロタイマー、Claude
+            APIによる学習プラン自動生成、統計分析、Stripe決済によるフリーミアムモデルを実装。Claude
+            Codeを活用し企画から4日間で開発・デプロイ。
+          </p>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {studyFlowTags.map((tag) => (
+              <span
+                key={tag}
+                className="font-[family-name:var(--font-mono)] text-xs text-text-muted border border-white/[0.06] px-2 py-1 rounded"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="flex gap-4">
+            <a
+              href="https://studyflow-indol.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
+            >
+              {'Live Demo →'}
+            </a>
+            <a
+              href="https://github.com/koutadev/studyflow"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
+            >
+              {'GitHub →'}
             </a>
           </div>
         </div>
@@ -113,14 +178,7 @@ export default function Works() {
             {workExperience.map((work, i) => (
               <div
                 key={i}
-                className="rounded-lg hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300"
-                style={{
-                  background: 'rgba(255,255,255,0.02)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                  padding: '40px',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(196, 132, 29, 0.3)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
+                className="border border-white/[0.06] rounded-lg p-5 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300"
               >
                 <h4 className="font-[family-name:var(--font-mono)] text-accent text-sm mb-3">
                   {work.title}
