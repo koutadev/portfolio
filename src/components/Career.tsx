@@ -16,7 +16,7 @@ const timeline = [
       '2年間、PHP・SQL・Linuxを中心に独学。Udemyと技術書で基礎を固め、個人開発で実践力を磨く。',
   },
   {
-    period: '現在',
+    period: '2025-2026',
     icon: '💻',
     title: 'SIer エンジニア',
     description:
