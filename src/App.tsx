@@ -10,7 +10,7 @@ import Footer from './components/Footer'
 
 function SectionDivider() {
   return (
-    <div className="max-w-[1000px] mx-auto px-5 md:px-10">
+    <div className="max-w-[1000px] mx-auto px-5 md:px-10" aria-hidden="true">
       <div
         className="h-px"
         style={{
@@ -26,19 +26,21 @@ export default function App() {
   return (
     <div className="grain">
       <Navigation />
-      <Hero />
-      <SectionDivider />
-      <About />
-      <SectionDivider />
-      <Achievements />
-      <SectionDivider />
-      <Skills />
-      <SectionDivider />
-      <Works />
-      <SectionDivider />
-      <Career />
-      <SectionDivider />
-      <Contact />
+      <main>
+        <Hero />
+        <SectionDivider />
+        <About />
+        <SectionDivider />
+        <Achievements />
+        <SectionDivider />
+        <Skills />
+        <SectionDivider />
+        <Works />
+        <SectionDivider />
+        <Career />
+        <SectionDivider />
+        <Contact />
+      </main>
       <Footer />
     </div>
   )

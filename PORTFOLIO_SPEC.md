@@ -3,7 +3,7 @@
 ## プロジェクト概要
 
 元寿司職人 → PHPバックエンドエンジニアのポートフォリオサイト。
-フリーランス / 完全リモート案件の獲得を目的とする。
+エンジニアとしての技術・実績を提示することを目的とする。
 
 ## 技術スタック
 
@@ -52,7 +52,7 @@
 - 4カラムグリッド:
   - 60× / SQLクエリ高速化 / 6秒 → 0.1秒
   - 14,000+ / テストデータ件数 / 実運用を想定した設計
-  - 43 / テストケース / 全件PASS
+  - 58 / テストケース / 全件PASS
   - 3年 / 寿司職人の経験 / 品質への執念
 
 ### 5. Skills
@@ -72,7 +72,7 @@
 #### Featured Project: Store Dashboard
 - GitHub: https://github.com/koutadev/store-dashboard
 - Live Demo: （デプロイ後にURL追加）
-- 説明: 複数店舗の売上データを一元管理するダッシュボードアプリケーション。KPIカード、Chart.jsによる3種のグラフ、売上CRUD、Excel/CSVエクスポート、店舗管理、ユーザー権限制御まで実装。43件のFeature Testで品質を担保。
+- 説明: 複数店舗の売上データを一元管理するダッシュボードアプリケーション。KPIカード、Chart.jsによる3種のグラフ、売上CRUD、Excel/CSVエクスポート、店舗管理、ユーザー権限制御まで実装。58件のFeature Testで品質を担保。
 - 技術タグ: PHP 8.3, Laravel 11, PostgreSQL 16, Chart.js, Tailwind CSS, Docker, GitHub Actions
 
 #### Work Experience: 自動車ディーラー業務システム

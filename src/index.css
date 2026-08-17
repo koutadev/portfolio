@@ -5,7 +5,7 @@
   --color-text-primary: #e8e6e3;
   --color-text-secondary: #aaaaaa;
   --color-text-muted: #888888;
-  --color-text-faint: #666666;
+  --color-text-faint: #8a8a8a;
   --color-accent: #c4841d;
   --color-accent-light: #e09b2d;
 
@@ -45,17 +45,19 @@ body {
   background-size: 128px 128px;
 }
 
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* Animations */
 .fade-up {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 @keyframes float {
@@ -75,9 +77,20 @@ body {
     transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hero-line.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* Respect reduced-motion: disable animation, pin to final state */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fade-up,
+  .hero-line,
+  .animate-float {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* Scrollbar */

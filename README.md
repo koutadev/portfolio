@@ -10,9 +10,10 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 
 | カテゴリ | 技術 |
 |---------|------|
-| Frontend | React / TypeScript |
-| Build | Vite |
-| Styling | Tailwind CSS |
+| Frontend | React 19 / TypeScript |
+| Build | Vite 8 |
+| Styling | Tailwind CSS 4 |
+| Test / CI | Playwright / GitHub Actions |
 | Deploy | Vercel |
 | Font | Noto Serif JP / Zen Kaku Gothic New / JetBrains Mono |
 
@@ -31,7 +32,7 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 - **About** — キャリアストーリー（寿司職人 → エンジニア）
 - **Achievements** — 数字で語る実績（SQL 60倍高速化 等）
 - **Skills** — 技術スタック（Backend / Frontend / DevOps / AI Tools）
-- **Works** — Store Dashboard + 実務での成果
+- **Works** — Store Dashboard / StudyFlow（課題→アプローチ→結果のケーススタディ）+ 実務での成果
 - **Career** — タイムライン形式の経歴
 - **Contact** — お問い合わせ
 
@@ -44,6 +45,17 @@ npm run dev
 ```
 
 http://localhost:5173 でアクセス
+
+## ✅ テスト / CI
+
+```bash
+npm run lint        # ESLint
+npm run typecheck   # tsc -b（型チェック）
+npm run build       # 型チェック + 本番ビルド
+npm run test:e2e    # Playwright スモークテスト
+```
+
+`.github/workflows/ci.yml` により、push / PR 時に install → lint → typecheck → build → Playwright を自動実行します。
 
 ## 👤 作者
 

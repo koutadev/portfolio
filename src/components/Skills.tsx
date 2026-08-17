@@ -23,7 +23,7 @@ export default function Skills() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="skills" className="py-20 md:py-[160px]" ref={ref}>
+    <section id="skills" className="py-20 md:py-[160px]" ref={ref} aria-label="技術スタック">
       <div className="max-w-[1000px] mx-auto px-5 md:px-10">
         <div
           className="fade-up"
@@ -58,12 +58,7 @@ export default function Skills() {
                 {category.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="font-[family-name:var(--font-mono)] text-accent text-sm rounded-sm hover:bg-accent/20 hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                    style={{
-                      padding: '6px 16px',
-                      background: 'rgba(196, 132, 29, 0.08)',
-                      border: '1px solid rgba(196, 132, 29, 0.2)',
-                    }}
+                    className="font-[family-name:var(--font-mono)] text-accent text-sm rounded-sm px-4 py-1.5 bg-accent/[0.08] border border-accent/20 hover:bg-accent/20 hover:-translate-y-0.5 transition-all duration-200 cursor-default"
                   >
                     {skill}
                   </span>

@@ -35,7 +35,7 @@ export default function Career() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="career" className="py-20 md:py-[160px]" ref={ref}>
+    <section id="career" className="py-20 md:py-[160px]" ref={ref} aria-label="経歴">
       <div className="max-w-[1000px] mx-auto px-5 md:px-10">
         <div
           className="fade-up"

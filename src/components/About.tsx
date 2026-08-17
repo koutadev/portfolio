@@ -4,7 +4,7 @@ export default function About() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="about" className="pt-20 md:pt-[160px] pb-40 md:pb-[240px]" ref={ref}>
+    <section id="about" className="pt-20 md:pt-[160px] pb-40 md:pb-[240px]" ref={ref} aria-label="自己紹介">
       <div className="max-w-[1000px] mx-auto px-5 md:px-10">
         <div
           className="fade-up"

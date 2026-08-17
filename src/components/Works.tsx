@@ -1,24 +1,84 @@
 import { useInView } from '../hooks/useInView'
 
-const storeDashboardTags = [
-  'PHP 8.3',
-  'Laravel 11',
-  'PostgreSQL 16',
-  'Chart.js',
-  'Tailwind CSS',
-  'Docker',
-  'GitHub Actions',
-]
+type CaseSection = {
+  label: string
+  body: string
+}
 
-const studyFlowTags = [
-  'Next.js 14',
-  'TypeScript',
-  'Supabase',
-  'PostgreSQL',
-  'Claude API',
-  'Stripe',
-  'Tailwind CSS',
-  'Vercel',
+type Project = {
+  badges: { text: string; featured?: boolean }[]
+  title: string
+  sections: CaseSection[]
+  tags: string[]
+  links: { label: string; href: string }[]
+  delay: string
+}
+
+const projects: Project[] = [
+  {
+    badges: [{ text: 'Featured', featured: true }, { text: 'Backend' }],
+    title: 'Store Dashboard',
+    sections: [
+      {
+        label: '課題',
+        body: '複数店舗の売上が店舗ごとに分散して管理され、全社での比較や前年同月比の把握に手間がかかっていた。',
+      },
+      {
+        label: 'アプローチ / 設計判断',
+        body: '集計処理をクエリ側に寄せてKPI 5種（前年同月比含む）を算出し、Chart.jsで前年比較付きの3種グラフとして可視化。CSVインポート/エクスポートで既存運用からの移行を確保し、ロールベースの権限制御でデータアクセスを分離。回帰を防ぐため主要フローを58件のFeature Testで固定した。',
+      },
+      {
+        label: '結果',
+        body: '期間フィルター・売上CRUD・店舗/ユーザー管理までを1画面で完結。58件のFeature Testが全件PASSし、機能追加時にも安全に変更できる状態を維持している。',
+      },
+    ],
+    tags: [
+      'PHP 8.3',
+      'Laravel 11',
+      'PostgreSQL 16',
+      'Chart.js',
+      'Tailwind CSS',
+      'Docker',
+      'GitHub Actions',
+    ],
+    links: [
+      { label: 'GitHub →', href: 'https://github.com/koutadev/store-dashboard' },
+    ],
+    delay: '0.1s',
+  },
+  {
+    badges: [{ text: 'Featured', featured: true }, { text: 'AI-Powered SaaS' }],
+    title: 'StudyFlow',
+    sections: [
+      {
+        label: '課題',
+        body: '学習の計画・記録・振り返りが複数ツールに分散し、継続のハードルになっていた。',
+      },
+      {
+        label: 'アプローチ / 設計判断',
+        body: '目標管理・学習記録・ポモドーロ・統計分析を1つのSaaSに統合し、Claude APIで学習プラン生成を自動化。Stripeでフリーミアムを構成し、Next.js + SupabaseでフロントからDB・認証までを最小構成にまとめてリードタイムを短縮した。',
+      },
+      {
+        label: '結果',
+        body: 'Claude Codeを活用し、企画からデプロイまでを4日間で到達。ダッシュボード・目標管理・学習記録・統計分析・Stripe決済を備えたSaaSとして公開している。',
+      },
+    ],
+    tags: [
+      'Next.js 14',
+      'TypeScript',
+      'Supabase',
+      'PostgreSQL',
+      'Claude API',
+      'Stripe',
+      'Tailwind CSS',
+      'Vercel',
+    ],
+    links: [
+      { label: 'Live Demo →', href: 'https://studyflow-indol.vercel.app' },
+      { label: 'GitHub →', href: 'https://github.com/koutadev/studyflow' },
+    ],
+    delay: '0.15s',
+  },
 ]
 
 const workExperience = [
@@ -43,7 +103,7 @@ export default function Works() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="works" className="py-24 md:py-32 px-6" ref={ref}>
+    <section id="works" className="py-24 md:py-32 px-6" ref={ref} aria-label="プロジェクト">
       <div className="max-w-6xl mx-auto">
         <div
           className="fade-up"
@@ -60,107 +120,73 @@ export default function Works() {
           </h2>
         </div>
 
-        {/* Store Dashboard */}
-        <div
-          className="fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 mb-8 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300"
-          style={{
-            transitionDelay: '0.1s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="font-[family-name:var(--font-mono)] text-xs text-accent bg-accent/10 px-2 py-1 rounded">
-              Featured
-            </span>
-            <span className="font-[family-name:var(--font-mono)] text-xs text-text-muted bg-white/5 px-2 py-1 rounded">
-              Backend
-            </span>
-            <h3 className="font-[family-name:var(--font-serif-jp)] text-xl md:text-2xl font-bold">
-              Store Dashboard
-            </h3>
-          </div>
-          <p className="text-text-secondary leading-relaxed mb-6">
-            複数店舗の売上データを一元管理するダッシュボードアプリケーション。KPI
-            5種（前年同月比含む）、期間フィルター、Chart.jsによる3種のグラフ（前年比較付き）、売上CRUD、CSVインポート/エクスポート、店舗管理、ユーザー権限制御まで実装。58件のFeature
-            Testで品質を担保。
-          </p>
-          <div className="flex flex-wrap gap-2 mb-6">
-            {storeDashboardTags.map((tag) => (
-              <span
-                key={tag}
-                className="font-[family-name:var(--font-mono)] text-xs text-text-muted border border-white/[0.06] px-2 py-1 rounded"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div className="flex gap-4">
-            <a
-              href="https://github.com/koutadev/store-dashboard"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
-            >
-              {'GitHub →'}
-            </a>
-          </div>
-        </div>
+        {projects.map((project, index) => (
+          <div
+            key={project.title}
+            className={`fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300 ${
+              index === projects.length - 1 ? 'mb-12' : 'mb-8'
+            }`}
+            style={{
+              transitionDelay: project.delay,
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+            }}
+          >
+            <div className="flex items-center flex-wrap gap-3 mb-6">
+              {project.badges.map((badge) => (
+                <span
+                  key={badge.text}
+                  className={`font-[family-name:var(--font-mono)] text-xs px-2 py-1 rounded ${
+                    badge.featured
+                      ? 'text-accent bg-accent/10'
+                      : 'text-text-muted bg-white/5'
+                  }`}
+                >
+                  {badge.text}
+                </span>
+              ))}
+              <h3 className="font-[family-name:var(--font-serif-jp)] text-xl md:text-2xl font-bold">
+                {project.title}
+              </h3>
+            </div>
 
-        {/* StudyFlow */}
-        <div
-          className="fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 mb-12 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300"
-          style={{
-            transitionDelay: '0.15s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="font-[family-name:var(--font-mono)] text-xs text-accent bg-accent/10 px-2 py-1 rounded">
-              Featured
-            </span>
-            <span className="font-[family-name:var(--font-mono)] text-xs text-text-muted bg-white/5 px-2 py-1 rounded">
-              AI-Powered SaaS
-            </span>
-            <h3 className="font-[family-name:var(--font-serif-jp)] text-xl md:text-2xl font-bold">
-              StudyFlow
-            </h3>
+            <div className="mb-6">
+              {project.sections.map((sec) => (
+                <div key={sec.label} className="mb-4 last:mb-0">
+                  <p className="font-[family-name:var(--font-mono)] text-accent text-xs tracking-wider mb-1.5">
+                    {sec.label}
+                  </p>
+                  <p className="text-text-secondary leading-relaxed">{sec.body}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-6">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="font-[family-name:var(--font-mono)] text-xs text-text-muted border border-white/[0.06] px-2 py-1 rounded"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex gap-4">
+              {project.links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
-          <p className="text-text-secondary leading-relaxed mb-6">
-            AIが最適な学習計画を生成する学習管理プラットフォーム。ダッシュボード、目標管理、学習記録、ポモドーロタイマー、Claude
-            APIによる学習プラン自動生成、統計分析、Stripe決済によるフリーミアムモデルを実装。Claude
-            Codeを活用し企画から4日間で開発・デプロイ。
-          </p>
-          <div className="flex flex-wrap gap-2 mb-6">
-            {studyFlowTags.map((tag) => (
-              <span
-                key={tag}
-                className="font-[family-name:var(--font-mono)] text-xs text-text-muted border border-white/[0.06] px-2 py-1 rounded"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div className="flex gap-4">
-            <a
-              href="https://studyflow-indol.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
-            >
-              {'Live Demo →'}
-            </a>
-            <a
-              href="https://github.com/koutadev/studyflow"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
-            >
-              {'GitHub →'}
-            </a>
-          </div>
-        </div>
+        ))}
 
         {/* Work Experience */}
         <div

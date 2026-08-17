@@ -47,15 +47,13 @@ export default function Hero() {
         <div className="flex gap-4 pt-2">
           <a
             href="#works"
-            className="inline-block border border-accent text-accent text-sm font-[family-name:var(--font-mono)] uppercase tracking-[3px] hover:bg-accent hover:text-bg transition-all duration-300"
-            style={{ padding: '16px 48px' }}
+            className="inline-block border border-accent text-accent text-sm font-[family-name:var(--font-mono)] uppercase tracking-[3px] px-12 py-4 hover:bg-accent hover:text-bg transition-all duration-300"
           >
             Works
           </a>
           <a
             href="#contact"
-            className="inline-block border border-accent text-accent text-sm font-[family-name:var(--font-mono)] uppercase tracking-[3px] hover:bg-accent hover:text-bg transition-all duration-300"
-            style={{ padding: '16px 48px' }}
+            className="inline-block border border-accent text-accent text-sm font-[family-name:var(--font-mono)] uppercase tracking-[3px] px-12 py-4 hover:bg-accent hover:text-bg transition-all duration-300"
           >
             Contact
           </a>
@@ -66,7 +64,7 @@ export default function Hero() {
   ]
 
   return (
-    <section className="relative min-h-screen flex items-center">
+    <section className="relative min-h-screen flex items-center" aria-label="イントロダクション">
       <div className="max-w-[900px] mx-auto w-full px-5 md:px-10">
         <div className="flex flex-col gap-4 md:gap-6">
           {lines.map((line, i) => (
