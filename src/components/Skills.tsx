@@ -15,7 +15,7 @@ const skillCategories = [
   },
   {
     title: 'AI Tools',
-    skills: ['Claude Code', 'ChatGPT', 'AI駆動開発'],
+    skills: ['Claude Code', 'ChatGPT', 'AI活用（開発補助）'],
   },
 ]
 
