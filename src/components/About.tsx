@@ -47,11 +47,11 @@ export default function About() {
             }}
           >
             <p className="text-text-secondary leading-relaxed mb-6">
-              2年間の独学を経て、現在はSIer企業でトヨタ系ディーラー向けの業務システムを開発。SQLクエリの60倍高速化、Excelエクスポートのリファクタリングなど、実務で数字に残る成果を出してきました。
+              2年間の独学を経て、現在はSIer企業で自動車ディーラー向けの業務システムを開発。SQLクエリの60倍高速化、Excelエクスポートのリファクタリングなど、実務で数字に残る成果を出してきました。
             </p>
             <p className="text-text-secondary leading-relaxed">
               Claude
-              CodeやChatGPTをフル活用したAI駆動の開発スタイルで、一人でも高い生産性を実現します。
+              CodeやChatGPTを開発補助として活用し、一人でも高い生産性を保つスタイルで開発しています。
             </p>
           </div>
         </div>
