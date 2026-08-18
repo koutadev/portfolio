@@ -1,0 +1,3 @@
+# Local SQL optimization case study (docker-compose / schema / seed / queries).
+# Not part of the site build — reproduction assets only.
+sql-optimization-case-study/

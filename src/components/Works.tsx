@@ -1,4 +1,5 @@
 import { useInView } from '../hooks/useInView'
+import SqlOptimizationDemo from './SqlOptimizationDemo'
 
 type CaseSection = {
   label: string
@@ -33,7 +34,7 @@ const workCaseStudies: Project[] = [
       },
     ],
     tags: ['PHP', 'Laravel', 'PostgreSQL', 'EXPLAIN ANALYZE', 'PhpSpreadsheet'],
-    links: [],
+    links: [{ label: 'Before/After デモを実行 ↓', href: '#sql-demo' }],
   },
   {
     badges: [{ text: '実務', featured: true }, { text: 'Data Viz' }],
@@ -180,17 +181,21 @@ function ProjectCard({ project, isVisible, delay, marginBottom }: CardProps) {
 
       {project.links.length > 0 && (
         <div className="flex gap-4">
-          {project.links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
+          {project.links.map((link) => {
+            const isAnchor = link.href.startsWith('#')
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                {...(isAnchor
+                  ? {}
+                  : { target: '_blank', rel: 'noopener noreferrer' })}
+                className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
+              >
+                {link.label}
+              </a>
+            )
+          })}
         </div>
       )}
     </div>
@@ -237,9 +242,22 @@ export default function Works() {
             project={project}
             isVisible={isVisible}
             delay={`${0.1 + i * 0.05}s`}
-            marginBottom={i === workCaseStudies.length - 1 ? 'mb-16' : 'mb-8'}
+            marginBottom="mb-8"
           />
         ))}
+
+        {/* SQL最適化 Before/After デモ（実務ケーススタディの実証） */}
+        <div
+          id="sql-demo"
+          className="fade-up scroll-mt-24 mb-16"
+          style={{
+            transitionDelay: '0.2s',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+          }}
+        >
+          <SqlOptimizationDemo />
+        </div>
 
         {/* 個人開発 */}
         <div
