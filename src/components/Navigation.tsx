@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 
 const navLinks = [
   { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
   { href: '#works', label: 'Works' },
-  { href: '#career', label: 'Career' },
+  { href: '#designs', label: 'Designs' },
+  { href: '#skills', label: 'Skills' },
   { href: '#contact', label: 'Contact' },
 ]
 
@@ -30,16 +30,17 @@ export default function Navigation() {
   return (
     <nav
       aria-label="メインナビゲーション"
+      data-lpm-spy
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? 'bg-[#0a0a0b]/80 backdrop-blur-md border-b border-white/[0.06]'
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-[1000px] mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
+      <div className="max-w-[1120px] mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
         <a
           href="#"
-          className="font-[family-name:var(--font-serif-jp)] text-accent text-xl font-bold tracking-wider"
+          className="font-[family-name:var(--font-serif-jp)] text-accent text-xl font-bold tracking-[0.2em]"
         >
           KOUTA
         </a>

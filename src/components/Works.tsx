@@ -1,4 +1,4 @@
-import { useInView } from '../hooks/useInView'
+import SectionHeading from './SectionHeading'
 import SqlOptimizationDemo from './SqlOptimizationDemo'
 
 type CaseSection = {
@@ -7,8 +7,11 @@ type CaseSection = {
 }
 
 type Project = {
+  id: string
   badges: { text: string; featured?: boolean }[]
   title: string
+  /** カードに出す1〜2行の要約（詳細はモーダル） */
+  summary: string
   sections: CaseSection[]
   tags: string[]
   links: { label: string; href: string }[]
@@ -18,7 +21,9 @@ type Project = {
 const workCaseStudies: Project[] = [
   {
     badges: [{ text: '実務', featured: true }, { text: 'Performance' }],
+    id: 'sql',
     title: 'SQLクエリ最適化',
+    summary: '売上集計を約6秒 → 0.1秒（約60倍）に短縮。Before/Afterデモ付き。',
     sections: [
       {
         label: '課題',
@@ -38,7 +43,9 @@ const workCaseStudies: Project[] = [
   },
   {
     badges: [{ text: '実務', featured: true }, { text: 'Data Viz' }],
+    id: 'dashboard',
     title: 'ダッシュボード開発',
+    summary: '店舗ごとに分散していた売上・実績を、1画面で横断的に可視化。',
     sections: [
       {
         label: '課題',
@@ -62,7 +69,9 @@ const workCaseStudies: Project[] = [
 const businessSystems: Project[] = [
   {
     badges: [{ text: 'Featured', featured: true }, { text: '業務システム' }],
+    id: 'crm',
     title: '営業・売上管理CRM（BtoB法人営業向け）',
+    summary: '税率スナップショットと端数処理の集約で、金額の正確性を保ったまま予実・パイプラインを可視化。',
     sections: [
       {
         label: '想定クライアント',
@@ -106,7 +115,9 @@ const businessSystems: Project[] = [
   },
   {
     badges: [{ text: 'Featured', featured: true }, { text: 'モバイルファースト' }],
+    id: 'yoga',
     title: 'オンラインヨガ予約システム（モバイルファースト）',
+    summary: '行ロックとキャンセル待ちの自動繰り上げで、定員超過・二重予約をテストで防止。',
     sections: [
       {
         label: '想定クライアント',
@@ -150,7 +161,9 @@ const businessSystems: Project[] = [
   },
   {
     badges: [{ text: '共通基盤', featured: true }, { text: 'Platform' }],
+    id: 'platform',
     title: '業務システム共通基盤テンプレート',
+    summary: '認証・権限・一覧・監査ログの土台を切り出し、CRMとヨガ予約の2システムを派生。',
     sections: [
       {
         label: '課題',
@@ -191,7 +204,9 @@ const businessSystems: Project[] = [
 const projects: Project[] = [
   {
     badges: [{ text: 'Featured', featured: true }, { text: 'Backend' }],
+    id: 'store-dashboard',
     title: 'Store Dashboard',
+    summary: '複数店舗の売上をKPI・グラフ・CRUDで一元管理。58件のFeature Testが全件PASS。',
     sections: [
       {
         label: '課題',
@@ -221,7 +236,9 @@ const projects: Project[] = [
   },
   {
     badges: [{ text: 'Featured', featured: true }, { text: 'AI-Powered SaaS' }],
+    id: 'studyflow',
     title: 'StudyFlow',
+    summary: 'Claude APIで学習プランを自動生成する、Stripe決済付きのSaaS。',
     sections: [
       {
         label: '課題',
@@ -253,186 +270,157 @@ const projects: Project[] = [
   },
 ]
 
-type CardProps = {
-  project: Project
-  isVisible: boolean
-  delay: string
-  marginBottom: string
+const groups: { label: string; items: Project[] }[] = [
+  { label: '実務 — 自動車ディーラー業務システム', items: workCaseStudies },
+  { label: '自主制作 — 業務システム', items: businessSystems },
+  { label: '個人開発', items: projects },
+]
+
+function ExternalOrAnchorLink({ link, closeOnClick }: { link: Project['links'][number]; closeOnClick?: boolean }) {
+  const isAnchor = link.href.startsWith('#')
+  return (
+    <a
+      href={link.href}
+      {...(isAnchor ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+      {...(isAnchor && closeOnClick ? { 'data-lpm-close': '' } : {})}
+      className="inline-flex items-center min-h-11 px-5 border border-accent/40 font-[family-name:var(--font-mono)] text-[13px] text-accent hover:bg-accent hover:text-bg transition-colors duration-200"
+    >
+      {link.label}
+    </a>
+  )
 }
 
-function ProjectCard({ project, isVisible, delay, marginBottom }: CardProps) {
+// 一覧用の小さいカード。カード全体がクリック範囲で、詳細モーダル（lp-motion M-17）を開く
+function ProjectCard({ project }: { project: Project }) {
   return (
-    <div
-      data-project={project.title}
-      className={`fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300 ${marginBottom}`}
-      style={{
-        transitionDelay: delay,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-      }}
-    >
-      <div className="flex items-center flex-wrap gap-3 mb-6">
+    <div className="lpm-lift group relative h-full bg-white/[0.015] border border-white/[0.08] hover:border-accent/40 focus-within:border-accent/60 p-6 md:p-7 flex flex-col gap-3">
+      <div className="flex flex-wrap gap-2">
         {project.badges.map((badge) => (
           <span
             key={badge.text}
-            className={`font-[family-name:var(--font-mono)] text-xs px-2 py-1 rounded ${
+            className={`font-[family-name:var(--font-mono)] text-[11px] px-2 py-0.5 ${
               badge.featured ? 'text-accent bg-accent/10' : 'text-text-muted bg-white/5'
             }`}
           >
             {badge.text}
           </span>
         ))}
-        <h3 className="font-[family-name:var(--font-serif-jp)] text-xl md:text-2xl font-bold">
-          {project.title}
-        </h3>
       </div>
-
-      <div className="mb-6">
-        {project.sections.map((sec) => (
-          <div key={sec.label} className="mb-4 last:mb-0">
-            <p className="font-[family-name:var(--font-mono)] text-accent text-xs tracking-wider mb-1.5">
-              {sec.label}
-            </p>
-            <p className="text-text-secondary leading-relaxed">{sec.body}</p>
-          </div>
-        ))}
+      <h3 className="font-[family-name:var(--font-serif-jp)] text-lg md:text-xl font-bold leading-snug">
+        {project.title}
+      </h3>
+      <p className="text-sm text-text-secondary leading-relaxed flex-1">{project.summary}</p>
+      <div className="flex items-center justify-between gap-3 pt-1">
+        <span className="font-[family-name:var(--font-mono)] text-[11px] text-text-faint truncate">
+          {project.tags.slice(0, 3).join(' · ')}
+        </span>
+        {/* ::after をカード全面に広げ、カードのどこを押しても開く */}
+        <button
+          type="button"
+          data-lpm-open={`#work-${project.id}`}
+          aria-haspopup="dialog"
+          aria-label={`${project.title} の詳細を見る`}
+          className="shrink-0 font-[family-name:var(--font-mono)] text-xs text-accent-light cursor-pointer after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
+        >
+          詳細 +
+        </button>
       </div>
-
-      <div className="flex flex-wrap gap-2 mb-6 last:mb-0">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="font-[family-name:var(--font-mono)] text-xs text-text-muted border border-white/[0.06] px-2 py-1 rounded"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {project.links.length > 0 && (
-        <div className="flex gap-4">
-          {project.links.map((link) => {
-            const isAnchor = link.href.startsWith('#')
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                {...(isAnchor
-                  ? {}
-                  : { target: '_blank', rel: 'noopener noreferrer' })}
-                className="font-[family-name:var(--font-mono)] text-sm text-accent hover:text-accent-light transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            )
-          })}
-        </div>
-      )}
     </div>
   )
 }
 
-export default function Works() {
-  const { ref, isVisible } = useInView()
-
+// 詳細: 課題 → アプローチ → 結果 のケーススタディ
+function ProjectDialog({ project }: { project: Project }) {
+  const titleId = `work-${project.id}-title`
   return (
-    <section id="works" className="py-24 md:py-32 px-6" ref={ref} aria-label="プロジェクト">
-      <div className="max-w-6xl mx-auto">
-        <div
-          className="fade-up"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <p className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-4">
-            03 — WORKS
-          </p>
-          <h2 className="font-[family-name:var(--font-serif-jp)] text-[28px] md:text-4xl font-bold mb-12">
-            プロジェクト
-          </h2>
+    <dialog id={`work-${project.id}`} className="lpm-modal work-modal" aria-labelledby={titleId}>
+      <div className="lpm-modal__body flex flex-col gap-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="font-[family-name:var(--font-mono)] text-xs text-accent">
+              {project.badges.map((b) => b.text).join(' · ')}
+            </p>
+            <h3 id={titleId} className="font-[family-name:var(--font-serif-jp)] text-2xl md:text-[28px] font-bold leading-snug mt-1.5">
+              {project.title}
+            </h3>
+          </div>
+          <button
+            type="button"
+            data-lpm-close
+            aria-label="閉じる"
+            className="shrink-0 w-11 h-11 flex items-center justify-center border border-white/15 text-text-primary hover:border-accent hover:text-accent transition-colors"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <path d="M3 3l10 10M13 3L3 13" />
+            </svg>
+          </button>
         </div>
 
-        {/* 実務 — 主役として先頭に配置 */}
-        <div
-          className="fade-up"
-          style={{
-            transitionDelay: '0.05s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <h3 className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-6">
-            実務 — 自動車ディーラー業務システム
-          </h3>
-        </div>
-        {workCaseStudies.map((project, i) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            isVisible={isVisible}
-            delay={`${0.1 + i * 0.05}s`}
-            marginBottom="mb-8"
-          />
+        {project.sections.map((sec) => (
+          <div key={sec.label}>
+            <p className="font-[family-name:var(--font-mono)] text-accent text-xs tracking-wider mb-1.5">{sec.label}</p>
+            <p className="text-text-secondary leading-relaxed">{sec.body}</p>
+          </div>
         ))}
 
-        {/* SQL最適化 Before/After デモ（実務ケーススタディの実証） */}
-        <div
-          id="sql-demo"
-          className="fade-up scroll-mt-24 mb-16"
-          style={{
-            transitionDelay: '0.2s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <SqlOptimizationDemo />
+        <div className="flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="font-[family-name:var(--font-mono)] text-xs text-text-muted border border-white/[0.08] px-2 py-1"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
 
-        {/* 自主制作の業務システム — 共通基盤と、その上の CRM・ヨガ予約 */}
-        <div
-          className="fade-up"
-          style={{
-            transitionDelay: '0.22s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <h3 className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-6">
-            自主制作 — 業務システム
-          </h3>
-        </div>
-        {businessSystems.map((project, i) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            isVisible={isVisible}
-            delay={`${0.24 + i * 0.05}s`}
-            marginBottom={i === businessSystems.length - 1 ? 'mb-16' : 'mb-8'}
-          />
-        ))}
+        {project.links.length > 0 && (
+          <div className="flex flex-wrap gap-3">
+            {project.links.map((link) => (
+              <ExternalOrAnchorLink key={link.href} link={link} closeOnClick />
+            ))}
+          </div>
+        )}
+      </div>
+    </dialog>
+  )
+}
 
-        {/* 個人開発 */}
-        <div
-          className="fade-up"
-          style={{
-            transitionDelay: '0.35s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <h3 className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-6">
-            個人開発
-          </h3>
-        </div>
-        {projects.map((project, i) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            isVisible={isVisible}
-            delay={`${0.4 + i * 0.05}s`}
-            marginBottom={i === projects.length - 1 ? 'mb-0' : 'mb-8'}
-          />
+export default function Works() {
+  return (
+    <section id="works" className="py-20 md:py-32" aria-label="プロジェクト">
+      <div className="max-w-[1120px] mx-auto px-5 md:px-10">
+        <SectionHeading
+          number="02"
+          label="WORKS"
+          title="プロジェクト"
+          lead="カードを選ぶと、課題 → アプローチ → 結果の詳細が開きます。"
+        />
+
+        {groups.map((group) => (
+          <div key={group.label} className="mb-14 last:mb-0">
+            <h3
+              className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-5"
+              data-lpm-reveal="fade"
+            >
+              {group.label}
+            </h3>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" data-lpm-stagger="80">
+              {group.items.map((project) => (
+                <li key={project.id} data-project={project.title}>
+                  <ProjectCard project={project} />
+                  <ProjectDialog project={project} />
+                </li>
+              ))}
+            </ul>
+
+            {/* SQL最適化 Before/After デモ（実務ケーススタディの実証） */}
+            {group.items === workCaseStudies && (
+              <div id="sql-demo" className="scroll-mt-24 mt-8" data-lpm-reveal="up">
+                <SqlOptimizationDemo />
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </section>

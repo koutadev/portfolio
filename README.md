@@ -13,6 +13,7 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 | Frontend | React 19 / TypeScript |
 | Build | Vite 8 |
 | Styling | Tailwind CSS 4 |
+| Motion | lp-motion（自作・依存ゼロ。`src/vendor/lp-motion/` に同梱） |
 | Test / CI | Playwright / GitHub Actions |
 | Deploy | Vercel |
 | Font | Noto Serif JP / Zen Kaku Gothic New / JetBrains Mono |
@@ -23,17 +24,16 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 
 - ダークテーマ（漆黒）+ 金色アクセント
 - 日本語セリフ体の見出し + モノスペースのラベル
-- スクロール連動のフェードインアニメーション
+- 動きは自作ライブラリ lp-motion（スクロールで出現・数字のカウントアップ・詳細モーダル・現在地メニュー）
 - グレインテクスチャによるフィルム感
 
 ## 📐 セクション構成
 
-- **Hero** — キャッチコピー「元寿司職人。コードで、ビジネスを握る。」
-- **About** — キャリアストーリー（寿司職人 → エンジニア）
-- **Achievements** — 数字で語る実績（SQL 60倍高速化 等）
+- **Hero** — キャッチコピー「元寿司職人。コードで、ビジネスを握る。」＋実績の数字（SQL 60倍高速化 等）
+- **About** — 考え方・強みと、タイムライン形式の経歴（寿司職人 → エンジニア）
+- **Works** — 実務・業務システム・個人開発のケーススタディ（課題→アプローチ→結果）
+- **Designs** — LP / Webアプリのデザイン案をカードで一覧（種類で絞り込み、詳細はリンク先のライブプレビュー）。データは `src/data/designs.ts`
 - **Skills** — 技術スタック（Backend / Frontend / DevOps / AI Tools）
-- **Works** — Store Dashboard / StudyFlow（課題→アプローチ→結果のケーススタディ）+ 実務での成果
-- **Career** — タイムライン形式の経歴
 - **Contact** — お問い合わせ
 
 ## 🚀 セットアップ

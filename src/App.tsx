@@ -1,44 +1,33 @@
+import { useEffect } from 'react'
+import { lpmCount, lpmModal, lpmReveal, lpmScrollSpy } from './vendor/lp-motion/lp-motion.mjs'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import About from './components/About'
-import Achievements from './components/Achievements'
-import Skills from './components/Skills'
 import Works from './components/Works'
-import Career from './components/Career'
+import Designs from './components/Designs'
+import Skills from './components/Skills'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
-function SectionDivider() {
-  return (
-    <div className="max-w-[1000px] mx-auto px-5 md:px-10" aria-hidden="true">
-      <div
-        className="h-px"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent, rgba(196, 132, 29, 0.15), transparent)',
-        }}
-      />
-    </div>
-  )
-}
-
 export default function App() {
+  // lp-motion: 出現（M-10）・カウントアップ（M-11）・モーダル（M-17）・現在地メニュー（M-30）
+  // 各関数は初期化済みの要素を飛ばすので、StrictMode の二重実行でも安全
+  useEffect(() => {
+    lpmReveal()
+    lpmCount()
+    lpmModal()
+    lpmScrollSpy()
+  }, [])
+
   return (
     <div className="grain">
       <Navigation />
       <main>
         <Hero />
-        <SectionDivider />
         <About />
-        <SectionDivider />
-        <Achievements />
-        <SectionDivider />
-        <Skills />
-        <SectionDivider />
         <Works />
-        <SectionDivider />
-        <Career />
-        <SectionDivider />
+        <Designs />
+        <Skills />
         <Contact />
       </main>
       <Footer />
