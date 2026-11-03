@@ -7,7 +7,7 @@ export default function Contact() {
           data-lpm-reveal="up"
         >
           <p className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-[0.12em] mb-5">
-            06 — CONTACT
+            05 — CONTACT
           </p>
           <h2 className="font-[family-name:var(--font-serif-jp)] text-[30px] md:text-[44px] font-bold mb-6">
             お問い合わせ
