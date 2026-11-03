@@ -24,8 +24,8 @@ export const designKindLabel: Record<DesignKind, string> = {
 }
 
 // デザイン見本集（koutadev/designs）のページ。詳細はリンク先で見てもらう
-// TODO: Vercel の URL が決まったら DESIGNS_BASE_URL を設定する（未設定の間は「準備中」表示）
-const DESIGNS_BASE_URL = ''
+// DESIGNS_BASE_URL を空にすると、カードはリンクなしの「準備中」表示になる
+const DESIGNS_BASE_URL = 'https://designs-sigma-lac.vercel.app'
 
 const href = (path: string) => (DESIGNS_BASE_URL ? `${DESIGNS_BASE_URL}/${path}/` : undefined)
 
