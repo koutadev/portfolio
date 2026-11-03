@@ -105,7 +105,7 @@ test('Designs: LP / Webアプリのカードを種類で絞り込める', async 
   await expect(section.getByRole('button', { name: 'LP' })).toHaveAttribute('aria-pressed', 'true')
   const lpCount = await cards.count()
 
-  await section.getByRole('button', { name: 'Webアプリ' }).click()
+  await section.getByRole('button', { name: 'アプリ', exact: true }).click()
   const appCount = await cards.count()
 
   expect(lpCount + appCount).toBe(all)

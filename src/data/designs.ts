@@ -20,13 +20,50 @@ export type DesignItem = {
 
 export const designKindLabel: Record<DesignKind, string> = {
   lp: 'LP',
-  app: 'WEB APP',
+  app: 'APP',
 }
 
-// TODO: 実際のデザイン案に差し替える（名前・業種・トーン・リンク先・サムネイル）
+// デザイン見本集（koutadev/designs）のページ。詳細はリンク先で見てもらう
+// TODO: Vercel の URL が決まったら DESIGNS_BASE_URL を設定する（未設定の間は「準備中」表示）
+const DESIGNS_BASE_URL = ''
+
+const href = (path: string) => (DESIGNS_BASE_URL ? `${DESIGNS_BASE_URL}/${path}/` : undefined)
+
 export const designs: DesignItem[] = [
-  { slug: 'lp-01', kind: 'lp', title: '[LPデザイン名 01]', category: '[業種]', tone: '[トーン]' },
-  { slug: 'lp-02', kind: 'lp', title: '[LPデザイン名 02]', category: '[業種]', tone: '[トーン]' },
-  { slug: 'app-01', kind: 'app', title: '[アプリデザイン名 01]', category: '[用途]', tone: '[トーン]' },
-  { slug: 'app-02', kind: 'app', title: '[アプリデザイン名 02]', category: '[用途]', tone: '[トーン]' },
+  {
+    slug: 'bakery',
+    kind: 'lp',
+    title: 'こむぎと日々',
+    category: '街のベーカリー',
+    tone: 'ミニマル・グリッド',
+    href: href('bakery'),
+    thumbnail: '/designs/bakery.png',
+  },
+  {
+    slug: 'invoice-saas',
+    kind: 'lp',
+    title: 'ハレノ請求',
+    category: '請求書自動化SaaS',
+    tone: 'エディトリアル',
+    href: href('invoice-saas'),
+    thumbnail: '/designs/invoice-saas.png',
+  },
+  {
+    slug: 'salon',
+    kind: 'app',
+    title: 'LUMO',
+    category: '美容室の予約・顧客管理',
+    tone: 'カレンダー中心',
+    href: href('salon'),
+    thumbnail: '/designs/salon.png',
+  },
+  {
+    slug: 'budget',
+    kind: 'app',
+    title: 'ポケット',
+    category: '家計簿・サブスク管理（スマホ）',
+    tone: 'カラーブロック',
+    href: href('budget'),
+    thumbnail: '/designs/budget.png',
+  },
 ]

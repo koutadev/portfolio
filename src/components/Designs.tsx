@@ -8,7 +8,7 @@ type Filter = 'all' | DesignKind
 const filters: { value: Filter; label: string }[] = [
   { value: 'all', label: 'すべて' },
   { value: 'lp', label: 'LP' },
-  { value: 'app', label: 'Webアプリ' },
+  { value: 'app', label: 'アプリ' },
 ]
 
 // サムネイル未設定時の簡易プレビュー（種別ごとのワイヤー風）
