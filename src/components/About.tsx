@@ -1,12 +1,6 @@
 import SectionHeading from './SectionHeading'
 
-// 経歴の要点（詳細は Career セクション）
-const steps = [
-  { period: '2020–2023', title: '寿司職人', body: '素材の見極め、段取り、品質への執念' },
-  { period: '2023–2025', title: '独学', body: 'PHP・SQL・Linuxを中心に基礎を固める' },
-  { period: '2025–2026', title: 'SIer エンジニア', body: '業務システム開発・SQL最適化' },
-]
-
+// About は「考え方・強み」を語るセクション。年表などの事実は Career にまとめる
 export default function About() {
   return (
     <section id="about" className="py-20 md:py-32" aria-label="自己紹介">
@@ -21,29 +15,17 @@ export default function About() {
           寿司もシステムも、根本は同じです。
         </p>
         <div
-          className="text-text-secondary leading-relaxed max-w-[680px] mb-14 flex flex-col gap-4"
+          className="text-text-secondary leading-relaxed max-w-[680px] flex flex-col gap-4"
           data-lpm-reveal="up"
           data-lpm-delay="100"
         >
           <p>
-            寿司職人として3年間、毎朝4時に起きて市場に通い、魚の鮮度を一目で見極める力を磨きました。
-            2年間の独学を経てSIer企業で自動車ディーラー向けの業務システムを開発し、SQLクエリの60倍高速化など、実務で数字に残る成果を出してきました。
+            カウンター越しにお客様と向き合い、一貫一貫に心を込めてきた経験から、
+            使う人の待ち時間や手間を減らすことを何より大切にしています。
+            遅い画面はEXPLAIN ANALYZEで原因をデータから突き止め、正しさは主張ではなくテストで示します。
           </p>
           <p>Claude CodeやChatGPTを開発補助として活用し、一人でも高い生産性を保つスタイルで開発しています。</p>
         </div>
-
-        <ol
-          className="grid grid-cols-1 sm:grid-cols-3 border-t border-white/[0.08]"
-          data-lpm-stagger="100"
-        >
-          {steps.map((s) => (
-            <li key={s.period} className="pt-6 pr-6 pb-2">
-              <p className="font-[family-name:var(--font-mono)] text-xs text-accent">{s.period}</p>
-              <p className="font-bold mt-1">{s.title}</p>
-              <p className="text-sm text-text-secondary mt-0.5">{s.body}</p>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
   )
