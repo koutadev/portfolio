@@ -1,11 +1,8 @@
-
 export default function Contact() {
   return (
     <section id="contact" className="py-24 md:py-40" aria-label="お問い合わせ">
       <div className="max-w-[1120px] mx-auto px-5 md:px-10 text-center">
-        <div
-          data-lpm-reveal="up"
-        >
+        <div data-lpm-reveal="up">
           <p className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-[0.12em] mb-5">
             05 — CONTACT
           </p>
@@ -18,10 +15,11 @@ export default function Contact() {
         </div>
 
         <div
-          data-lpm-reveal="up" className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          data-lpm-reveal="up"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
-            href="mailto:your-email@example.com"
+            href="mailto:koutaito0403@gmail.com"
             className="inline-flex items-center justify-center min-h-13 px-12 bg-accent text-bg text-[13px] font-[family-name:var(--font-mono)] uppercase tracking-[0.16em] hover:bg-accent-light transition-all duration-300"
           >
             Mail
@@ -37,5 +35,5 @@ export default function Contact() {
         </div>
       </div>
     </section>
-  )
+  );
 }
