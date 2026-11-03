@@ -38,8 +38,7 @@ export default function Hero() {
             data-lpm-reveal="up"
             data-lpm-delay={300}
           >
-            3年間の寿司修行で培った「素材を見極める目」と「妥協なき品質」を武器に、
-            業務システムの設計・開発・最適化に取り組むバックエンドエンジニアです。
+            {'3年間の寿司修行で培った「素材を見極める目」と「妥協なき品質」を武器に、業務システムの設計・開発・最適化に取り組むバックエンドエンジニアです。'}
           </p>
           <div className="flex flex-wrap gap-3 pt-2" data-lpm-reveal="up" data-lpm-delay={450}>
             <a href="#works" className={`${buttonBase} bg-accent text-bg hover:bg-accent-light`}>
