@@ -37,7 +37,7 @@ export const designs: DesignItem[] = [
     category: '街のベーカリー',
     tone: 'ミニマル・グリッド',
     href: href('bakery'),
-    thumbnail: '/designs/bakery.png',
+    thumbnail: '/designs/bakery.webp',
   },
   {
     slug: 'invoice-saas',
@@ -46,7 +46,7 @@ export const designs: DesignItem[] = [
     category: '請求書自動化SaaS',
     tone: 'エディトリアル',
     href: href('invoice-saas'),
-    thumbnail: '/designs/invoice-saas.png',
+    thumbnail: '/designs/invoice-saas.webp',
   },
   {
     slug: 'salon',
@@ -55,7 +55,7 @@ export const designs: DesignItem[] = [
     category: '美容室の予約・顧客管理',
     tone: 'カレンダー中心',
     href: href('salon'),
-    thumbnail: '/designs/salon.png',
+    thumbnail: '/designs/salon.webp',
   },
   {
     slug: 'budget',
@@ -64,6 +64,6 @@ export const designs: DesignItem[] = [
     category: '家計簿・サブスク管理（スマホ）',
     tone: 'カラーブロック',
     href: href('budget'),
-    thumbnail: '/designs/budget.png',
+    thumbnail: '/designs/budget.webp',
   },
 ]
