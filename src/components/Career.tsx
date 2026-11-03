@@ -1,30 +1,27 @@
 import { useInView } from '../hooks/useInView'
+import SectionHeading from './SectionHeading'
 
 const timeline = [
   {
     period: '2020-2023',
-    icon: '🍣',
     title: '寿司職人',
     description:
       '都内の寿司店で3年間修行。素材の見極め、段取り、品質への妥協なき姿勢を叩き込まれる。',
   },
   {
     period: '2023-2025',
-    icon: '📚',
     title: '独学期間',
     description:
       '2年間、PHP・SQL・Linuxを中心に独学。Udemyと技術書で基礎を固め、個人開発で実践力を磨く。',
   },
   {
     period: '2025-2026',
-    icon: '💻',
     title: 'SIer エンジニア',
     description:
       '自動車ディーラー向け業務システムを開発。SQLクエリ60倍高速化、Excel出力機能など実務で成果を出す。',
   },
   {
     period: 'Next',
-    icon: '🚀',
     title: 'これから',
     description:
       '技術を土台に、上流工程（要件定義・設計）や顧客の課題解決へ領域を広げ、長期的に価値を出せるエンジニアを目指す。Java Silver・応用情報技術者試験を学習中。',
@@ -35,22 +32,9 @@ export default function Career() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="career" className="py-20 md:py-[160px]" ref={ref} aria-label="経歴">
-      <div className="max-w-[1000px] mx-auto px-5 md:px-10">
-        <div
-          className="fade-up"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <p className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-4">
-            04 — CAREER
-          </p>
-          <h2 className="font-[family-name:var(--font-serif-jp)] text-[28px] md:text-4xl font-bold mb-12">
-            経歴
-          </h2>
-        </div>
+    <section id="career" className="py-20 md:py-32" ref={ref} aria-label="経歴">
+      <div className="max-w-[1120px] mx-auto px-5 md:px-10">
+        <SectionHeading number="05" label="CAREER" title="経歴" isVisible={isVisible} />
 
         <div className="relative">
           {/* Timeline line */}
@@ -76,21 +60,14 @@ export default function Career() {
                   paddingBottom: i < timeline.length - 1 ? '48px' : '0',
                 }}
               >
-                {/* Dot - 24px circle with emoji */}
+                {/* Dot */}
                 <div
-                  className="absolute rounded-full bg-bg flex items-center justify-center"
-                  style={{
-                    left: '0',
-                    top: '2px',
-                    width: '24px',
-                    height: '24px',
-                    border: '2px solid #c4841d',
-                    fontSize: '12px',
-                    lineHeight: 1,
-                  }}
-                >
-                  {item.icon}
-                </div>
+                  className={`absolute rounded-full border-2 border-accent ${
+                    i === timeline.length - 1 ? 'bg-bg' : 'bg-accent'
+                  }`}
+                  style={{ left: '5px', top: '8px', width: '13px', height: '13px' }}
+                  aria-hidden="true"
+                />
 
                 <p className="font-[family-name:var(--font-mono)] text-accent text-sm mb-1">
                   {item.period}

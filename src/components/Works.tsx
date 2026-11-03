@@ -1,4 +1,5 @@
 import { useInView } from '../hooks/useInView'
+import SectionHeading from './SectionHeading'
 import SqlOptimizationDemo from './SqlOptimizationDemo'
 
 type CaseSection = {
@@ -264,7 +265,7 @@ function ProjectCard({ project, isVisible, delay, marginBottom }: CardProps) {
   return (
     <div
       data-project={project.title}
-      className={`fade-up border border-white/[0.06] rounded-lg p-6 md:p-8 hover:border-accent/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(196,132,29,0.08)] transition-all duration-300 ${marginBottom}`}
+      className={`fade-up border border-white/[0.06] bg-white/[0.015] p-6 md:p-10 hover:border-accent/40 transition-all duration-300 ${marginBottom}`}
       style={{
         transitionDelay: delay,
         opacity: isVisible ? 1 : 0,
@@ -336,22 +337,9 @@ export default function Works() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="works" className="py-24 md:py-32 px-6" ref={ref} aria-label="プロジェクト">
-      <div className="max-w-6xl mx-auto">
-        <div
-          className="fade-up"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <p className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-4">
-            03 — WORKS
-          </p>
-          <h2 className="font-[family-name:var(--font-serif-jp)] text-[28px] md:text-4xl font-bold mb-12">
-            プロジェクト
-          </h2>
-        </div>
+    <section id="works" className="py-20 md:py-32" ref={ref} aria-label="プロジェクト">
+      <div className="max-w-[1120px] mx-auto px-5 md:px-10">
+        <SectionHeading number="02" label="WORKS" title="プロジェクト" isVisible={isVisible} />
 
         {/* 実務 — 主役として先頭に配置 */}
         <div

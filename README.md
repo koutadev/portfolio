@@ -28,11 +28,11 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 
 ## 📐 セクション構成
 
-- **Hero** — キャッチコピー「元寿司職人。コードで、ビジネスを握る。」
+- **Hero** — キャッチコピー「元寿司職人。コードで、ビジネスを握る。」＋実績の数字（SQL 60倍高速化 等）
 - **About** — キャリアストーリー（寿司職人 → エンジニア）
-- **Achievements** — 数字で語る実績（SQL 60倍高速化 等）
+- **Works** — 実務・業務システム・個人開発のケーススタディ（課題→アプローチ→結果）
+- **Designs** — LP / Webアプリのデザイン案をカードで一覧（種類で絞り込み、詳細はリンク先のライブプレビュー）。データは `src/data/designs.ts`
 - **Skills** — 技術スタック（Backend / Frontend / DevOps / AI Tools）
-- **Works** — Store Dashboard / StudyFlow（課題→アプローチ→結果のケーススタディ）+ 実務での成果
 - **Career** — タイムライン形式の経歴
 - **Contact** — お問い合わせ
 

@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 
 const navLinks = [
   { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
   { href: '#works', label: 'Works' },
+  { href: '#designs', label: 'Designs' },
+  { href: '#skills', label: 'Skills' },
   { href: '#career', label: 'Career' },
   { href: '#contact', label: 'Contact' },
 ]
@@ -36,10 +37,10 @@ export default function Navigation() {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-[1000px] mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
+      <div className="max-w-[1120px] mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
         <a
           href="#"
-          className="font-[family-name:var(--font-serif-jp)] text-accent text-xl font-bold tracking-wider"
+          className="font-[family-name:var(--font-serif-jp)] text-accent text-xl font-bold tracking-[0.2em]"
         >
           KOUTA
         </a>

@@ -90,3 +90,23 @@ test.describe('SQL最適化 Before/After デモ', () => {
     await expect(demo.getByText('高速化（実測比）')).toBeVisible()
   })
 })
+
+test('Designs: LP / Webアプリのカードを種類で絞り込める', async ({ page }) => {
+  await page.goto('/')
+
+  const section = page.locator('#designs')
+  await expect(section.getByRole('heading', { name: 'デザイン', exact: true })).toBeVisible()
+
+  const cards = section.locator('[data-design]')
+  const all = await cards.count()
+  expect(all).toBeGreaterThan(0)
+
+  await section.getByRole('button', { name: 'LP' }).click()
+  await expect(section.getByRole('button', { name: 'LP' })).toHaveAttribute('aria-pressed', 'true')
+  const lpCount = await cards.count()
+
+  await section.getByRole('button', { name: 'Webアプリ' }).click()
+  const appCount = await cards.count()
+
+  expect(lpCount + appCount).toBe(all)
+})

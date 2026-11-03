@@ -1,25 +1,13 @@
 import { useInView } from '../hooks/useInView'
+import SectionHeading from './SectionHeading'
 
 export default function About() {
   const { ref, isVisible } = useInView()
 
   return (
-    <section id="about" className="pt-20 md:pt-[160px] pb-40 md:pb-[240px]" ref={ref} aria-label="自己紹介">
-      <div className="max-w-[1000px] mx-auto px-5 md:px-10">
-        <div
-          className="fade-up"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
-        >
-          <p className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-widest mb-4">
-            01 — ABOUT
-          </p>
-          <h2 className="font-[family-name:var(--font-serif-jp)] text-[28px] md:text-4xl font-bold mb-12">
-            包丁からキーボードへ
-          </h2>
-        </div>
+    <section id="about" className="py-20 md:py-32" ref={ref} aria-label="自己紹介">
+      <div className="max-w-[1120px] mx-auto px-5 md:px-10">
+        <SectionHeading number="01" label="ABOUT" title="包丁からキーボードへ" isVisible={isVisible} />
 
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <div
