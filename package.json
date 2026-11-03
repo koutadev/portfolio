@@ -12,6 +12,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "lp-motion": "github:koutadev/lp-motion#v1.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

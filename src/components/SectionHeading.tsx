@@ -3,20 +3,13 @@ type Props = {
   label: string
   title: string
   lead?: string
-  isVisible: boolean
 }
 
-// セクション見出し: 左に日本語タイトル、右に番号ラベル、下に金のヘアライン
-export default function SectionHeading({ number, label, title, lead, isVisible }: Props) {
+// セクション見出し: 左に日本語タイトル、右に番号ラベル、下に金のヘアライン（スクロールで線が伸びる）
+export default function SectionHeading({ number, label, title, lead }: Props) {
   return (
-    <div
-      className="fade-up mb-10 md:mb-12"
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-      }}
-    >
-      <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-accent/25 pb-5">
+    <div className="mb-10 md:mb-12" data-lpm-reveal="up">
+      <div className="section-rule flex flex-wrap items-baseline justify-between gap-3 pb-5">
         <h2 className="font-[family-name:var(--font-serif-jp)] text-[28px] md:text-4xl font-bold">
           {title}
         </h2>

@@ -1,17 +1,10 @@
-import { useInView } from '../hooks/useInView'
 
 export default function Contact() {
-  const { ref, isVisible } = useInView()
-
   return (
-    <section id="contact" className="py-24 md:py-40" ref={ref} aria-label="お問い合わせ">
+    <section id="contact" className="py-24 md:py-40" aria-label="お問い合わせ">
       <div className="max-w-[1120px] mx-auto px-5 md:px-10 text-center">
         <div
-          className="fade-up"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
+          data-lpm-reveal="up"
         >
           <p className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-[0.12em] mb-5">
             06 — CONTACT
@@ -25,12 +18,7 @@ export default function Contact() {
         </div>
 
         <div
-          className="fade-up flex flex-col sm:flex-row items-center justify-center gap-4"
-          style={{
-            transitionDelay: '0.1s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
+          data-lpm-reveal="up" className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
             href="mailto:your-email@example.com"

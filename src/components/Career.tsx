@@ -1,4 +1,3 @@
-import { useInView } from '../hooks/useInView'
 import SectionHeading from './SectionHeading'
 
 const timeline = [
@@ -29,12 +28,10 @@ const timeline = [
 ]
 
 export default function Career() {
-  const { ref, isVisible } = useInView()
-
   return (
-    <section id="career" className="py-20 md:py-32" ref={ref} aria-label="経歴">
+    <section id="career" className="py-20 md:py-32" aria-label="経歴">
       <div className="max-w-[1120px] mx-auto px-5 md:px-10">
-        <SectionHeading number="05" label="CAREER" title="経歴" isVisible={isVisible} />
+        <SectionHeading number="05" label="CAREER" title="経歴" />
 
         <div className="relative">
           {/* Timeline line */}
@@ -51,11 +48,10 @@ export default function Career() {
             {timeline.map((item, i) => (
               <div
                 key={i}
-                className="fade-up relative"
+                data-lpm-reveal="up"
+                data-lpm-delay={i * 100}
+                className="relative"
                 style={{
-                  transitionDelay: `${(i + 1) * 0.1}s`,
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
                   paddingLeft: '48px',
                   paddingBottom: i < timeline.length - 1 ? '48px' : '0',
                 }}

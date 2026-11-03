@@ -1,4 +1,3 @@
-import { useInView } from '../hooks/useInView'
 import SectionHeading from './SectionHeading'
 
 const skillCategories = [
@@ -21,23 +20,18 @@ const skillCategories = [
 ]
 
 export default function Skills() {
-  const { ref, isVisible } = useInView()
-
   return (
-    <section id="skills" className="py-20 md:py-32" ref={ref} aria-label="技術スタック">
+    <section id="skills" className="py-20 md:py-32" aria-label="技術スタック">
       <div className="max-w-[1120px] mx-auto px-5 md:px-10">
-        <SectionHeading number="04" label="SKILLS" title="技術スタック" isVisible={isVisible} />
+        <SectionHeading number="04" label="SKILLS" title="技術スタック" />
 
         <div className="grid md:grid-cols-2 gap-8">
           {skillCategories.map((category, i) => (
             <div
               key={category.title}
-              className="fade-up border border-white/[0.06] p-6 md:p-8"
-              style={{
-                transitionDelay: `${(i + 1) * 0.1}s`,
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-              }}
+              data-lpm-reveal="up"
+              data-lpm-delay={i * 100}
+              className="border border-white/[0.06] p-6 md:p-8"
             >
               <h3 className="font-[family-name:var(--font-mono)] text-accent text-sm tracking-wider mb-4">
                 {category.title}

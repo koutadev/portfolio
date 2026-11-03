@@ -53,13 +53,6 @@ body {
 }
 
 /* Animations */
-.fade-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -69,12 +62,59 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Hero line-by-line animation */
-.hero-line {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+/* Section heading hairline: draws in when the heading is revealed (lp-motion M-10) */
+.section-rule {
+  position: relative;
+}
+.section-rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(196, 132, 29, 0.35);
+  transform-origin: left;
+  transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
+}
+[data-lpm-ready]:not(.is-in) .section-rule::after {
+  transform: scaleX(0);
+}
+
+/* lp-motion theme overrides (dark × gold). The library itself is left unchanged. */
+:root {
+  --lpm-accent: var(--color-accent);
+}
+
+.lpm-lift:hover,
+.lpm-lift:focus-visible {
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(196, 132, 29, 0.25);
+}
+
+.lpm-modal.work-modal {
+  /* Tailwind preflight resets dialog margins; restore centering */
+  margin: auto;
+  width: min(760px, calc(100% - 32px));
+  background: #121214;
+  color: var(--color-text-primary);
+  border: 1px solid rgba(196, 132, 29, 0.35);
+  border-radius: 0;
+}
+.lpm-modal.work-modal::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+.lpm-modal.work-modal .lpm-modal__body {
+  padding: 28px;
+}
+@media (min-width: 768px) {
+  .lpm-modal.work-modal .lpm-modal__body {
+    padding: 40px;
+  }
+}
+
+/* Current section in the nav (lp-motion M-30): keep the nav's own font weight */
+[data-lpm-spy] a[aria-current="true"] {
+  font-weight: inherit;
 }
 
 /* Respect reduced-motion: disable animation, pin to final state */
@@ -83,9 +123,8 @@ body {
     scroll-behavior: auto;
   }
 
-  .fade-up,
-  .hero-line,
-  .animate-float {
+  .animate-float,
+  .section-rule::after {
     transition: none !important;
     animation: none !important;
     opacity: 1 !important;

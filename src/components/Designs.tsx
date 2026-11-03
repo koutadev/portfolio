@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useInView } from '../hooks/useInView'
+import { useEffect, useRef, useState } from 'react'
+import { lpmReveal } from 'lp-motion'
 import SectionHeading from './SectionHeading'
 import { designKindLabel, designs, type DesignItem, type DesignKind } from '../data/designs'
 
@@ -49,13 +49,13 @@ function DesignCard({ item }: { item: DesignItem }) {
   const isReady = Boolean(item.href)
   const body = (
     <>
-      <div className="aspect-[4/3] overflow-hidden" aria-hidden="true">
+      <div className="lpm-zoom aspect-[4/3]" aria-hidden="true">
         {item.thumbnail ? (
           <img
             src={item.thumbnail}
             alt=""
             loading="lazy"
-            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+            className="h-full object-cover object-top"
           />
         ) : (
           <FallbackThumb kind={item.kind} />
@@ -89,7 +89,7 @@ function DesignCard({ item }: { item: DesignItem }) {
       target="_blank"
       rel="noopener noreferrer"
       data-design={item.slug}
-      className={`${cardClass} hover:border-accent/40 hover:-translate-y-1`}
+      className={`${cardClass} lpm-lift hover:border-accent/40`}
     >
       {body}
     </a>
@@ -101,30 +101,30 @@ function DesignCard({ item }: { item: DesignItem }) {
 }
 
 export default function Designs() {
-  const { ref, isVisible } = useInView(0.1)
   const [filter, setFilter] = useState<Filter>('all')
   const shown = filter === 'all' ? designs : designs.filter((d) => d.kind === filter)
+  const listRef = useRef<HTMLUListElement>(null)
+
+  // 絞り込みで入れ替わったカードにも出現アニメ（lp-motion M-10）を付け直す
+  useEffect(() => {
+    if (listRef.current) lpmReveal(listRef.current)
+  }, [filter])
 
   return (
-    <section id="designs" className="py-20 md:py-32" ref={ref} aria-label="デザイン">
+    <section id="designs" className="py-20 md:py-32" aria-label="デザイン">
       <div className="max-w-[1120px] mx-auto px-5 md:px-10">
         <SectionHeading
           number="03"
           label="DESIGNS"
           title="デザイン"
           lead="LP・Webアプリのデザイン案です。カードから詳細ページ（ライブプレビュー）へ移動します。"
-          isVisible={isVisible}
         />
 
         <div
-          className="fade-up flex flex-wrap gap-2 mb-8"
+          data-lpm-reveal="up"
+          className="flex flex-wrap gap-2 mb-8"
           role="group"
           aria-label="種類で絞り込み"
-          style={{
-            transitionDelay: '0.05s',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-          }}
         >
           {filters.map((f) => {
             const active = filter === f.value
@@ -146,17 +146,9 @@ export default function Designs() {
           })}
         </div>
 
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <ul ref={listRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {shown.map((item, i) => (
-            <li
-              key={item.slug}
-              className="fade-up"
-              style={{
-                transitionDelay: `${0.1 + i * 0.05}s`,
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-              }}
-            >
+            <li key={`${filter}-${item.slug}`} data-lpm-reveal="up" data-lpm-delay={i * 60}>
               <DesignCard item={item} />
             </li>
           ))}
