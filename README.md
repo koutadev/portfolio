@@ -13,6 +13,7 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 | Frontend | React 19 / TypeScript |
 | Build | Vite 8 |
 | Styling | Tailwind CSS 4 |
+| Motion | lp-motion（自作・依存ゼロ。`src/vendor/lp-motion/` に同梱） |
 | Test / CI | Playwright / GitHub Actions |
 | Deploy | Vercel |
 | Font | Noto Serif JP / Zen Kaku Gothic New / JetBrains Mono |
@@ -23,7 +24,7 @@ https://portfolio-chi-sage-eud0tx0pxw.vercel.app
 
 - ダークテーマ（漆黒）+ 金色アクセント
 - 日本語セリフ体の見出し + モノスペースのラベル
-- スクロール連動のフェードインアニメーション
+- 動きは自作ライブラリ lp-motion（スクロールで出現・数字のカウントアップ・詳細モーダル・現在地メニュー）
 - グレインテクスチャによるフィルム感
 
 ## 📐 セクション構成

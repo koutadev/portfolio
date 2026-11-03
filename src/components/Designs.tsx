@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { lpmReveal } from 'lp-motion'
+import { lpmReveal } from '../vendor/lp-motion/lp-motion.mjs'
 import SectionHeading from './SectionHeading'
 import { designKindLabel, designs, type DesignItem, type DesignKind } from '../data/designs'
 

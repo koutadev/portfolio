@@ -1,0 +1,499 @@
+/*! lp-motion.css — LPパーツカタログ用の動き（CSSのみの効果と、JS効果の見た目） */
+/* lp-motion の共通設定。--lp-accent を指定するとパーツと同じ色になります */
+:root{--lpm-accent:var(--lp-accent,#1F6B57);--lpm-ink:var(--lp-ink,#1D2125)}
+
+/* M-01 リンクの下線が伸びる */
+.lpm-underline{background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-position:right bottom;background-size:0 1px;padding-bottom:2px;text-decoration:none;transition:background-size .3s ease}
+.lpm-underline:hover,.lpm-underline:focus-visible{background-position:left bottom;background-size:100% 1px}
+
+/* M-02 ボタンの背景が流れ込む（--lpm-fill で色、--lpm-fill-text で文字色） */
+.lpm-fill{position:relative;isolation:isolate;overflow:hidden;transition:color .3s ease}
+.lpm-fill::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--lpm-fill,var(--lpm-accent));transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.6,0,.2,1)}
+.lpm-fill:hover,.lpm-fill:focus-visible{color:var(--lpm-fill-text,#fff)}
+.lpm-fill:hover::before,.lpm-fill:focus-visible::before{transform:scaleX(1);transform-origin:left}
+@media (prefers-reduced-motion:reduce){.lpm-fill::before{transition:none}}
+
+/* M-03 カードの浮き上がり＋画像ズーム */
+.lpm-lift{display:block;transition:transform .3s ease,box-shadow .3s ease}
+.lpm-lift:hover,.lpm-lift:focus-visible{transform:translateY(-6px);box-shadow:0 14px 30px rgba(20,30,28,.14)}
+.lpm-zoom{overflow:hidden}
+.lpm-zoom>*{display:block;width:100%;transition:transform .5s ease}
+.lpm-zoom:hover>*,.lpm-lift:hover .lpm-zoom>*,.lpm-lift:focus-visible .lpm-zoom>*{transform:scale(1.06)}
+@media (prefers-reduced-motion:reduce){.lpm-lift,.lpm-zoom>*{transition:none}.lpm-lift:hover,.lpm-lift:focus-visible{transform:none}}
+
+/* M-04 アコーディオンの開閉アニメ（対応ブラウザのみ動く。非対応でも開閉はできる） */
+.lpm-acc{interpolate-size:allow-keywords}
+.lpm-acc::details-content{block-size:0;overflow:hidden;transition:block-size .3s ease,content-visibility .3s allow-discrete}
+.lpm-acc[open]::details-content{block-size:auto}
+.lpm-acc>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.lpm-acc>summary::-webkit-details-marker{display:none}
+.lpm-acc>summary::after{content:"";flex:none;width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-30%) rotate(45deg);transition:transform .3s ease}
+.lpm-acc[open]>summary::after{transform:translateY(20%) rotate(-135deg)}
+@media (prefers-reduced-motion:reduce){.lpm-acc::details-content,.lpm-acc>summary::after{transition:none}}
+
+/* M-05 タブ切り替え（CSSのみ・4つまで） */
+.lpm-ctabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--lp-line,#D9DEDC)}
+.lpm-ctabs>input{position:absolute;opacity:0;pointer-events:none}
+.lpm-ctabs>label{padding:10px 16px;border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:700;color:var(--lp-muted,#56605D);cursor:pointer}
+.lpm-ctabs>input:checked+label{border-color:var(--lpm-accent);color:var(--lpm-ink)}
+.lpm-ctabs>input:focus-visible+label{outline:2px solid var(--lpm-accent);outline-offset:-2px}
+.lpm-ctabs__panel{order:1;flex-basis:100%;display:none;padding:16px 4px}
+.lpm-ctabs>input:nth-of-type(1):checked~.lpm-ctabs__panel:nth-of-type(1),
+.lpm-ctabs>input:nth-of-type(2):checked~.lpm-ctabs__panel:nth-of-type(2),
+.lpm-ctabs>input:nth-of-type(3):checked~.lpm-ctabs__panel:nth-of-type(3),
+.lpm-ctabs>input:nth-of-type(4):checked~.lpm-ctabs__panel:nth-of-type(4){display:block;animation:lpm-fade-in .3s ease}
+@keyframes lpm-fade-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.lpm-ctabs__panel{animation:none!important}}
+
+/* M-06 ロゴ・文字の無限スクロール（--lpm-speed で速さ、--lpm-gap で間隔） */
+.lpm-marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.lpm-marquee__track{display:flex;width:max-content;animation:lpm-marquee var(--lpm-speed,30s) linear infinite}
+.lpm-marquee:hover .lpm-marquee__track,.lpm-marquee:focus-within .lpm-marquee__track{animation-play-state:paused}
+.lpm-marquee__list{display:flex;gap:var(--lpm-gap,16px);margin:0;padding:0 var(--lpm-gap,16px) 0 0;list-style:none}
+@keyframes lpm-marquee{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.lpm-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.lpm-marquee__track{animation:none}}
+
+/* M-07 スクロールでフェードイン（CSSのみ。非対応ブラウザでは常に表示） */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .lpm-view{animation:lpm-view-in linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
+  }
+}
+@keyframes lpm-view-in{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+
+/* M-08 ツールチップ（中身は data-lpm-tip の文字） */
+[data-lpm-tip]{position:relative}
+[data-lpm-tip]::after{content:attr(data-lpm-tip);position:absolute;left:50%;bottom:calc(100% + 8px);z-index:10;padding:6px 10px;border-radius:6px;background:var(--lpm-ink);color:#fff;font-size:12px;font-weight:500;line-height:1.5;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,4px);transition:opacity .15s ease,transform .15s ease}
+[data-lpm-tip]:hover::after,[data-lpm-tip]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+
+/* M-09 三本線が×に変わる */
+.lpm-burger{width:44px;height:44px;display:inline-flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;list-style:none;cursor:pointer}
+.lpm-burger::-webkit-details-marker{display:none}
+.lpm-burger>span{width:20px;height:2px;border-radius:1px;background:currentColor;transition:transform .3s ease,opacity .2s ease}
+details[open]>.lpm-burger>span:nth-child(1),.lpm-burger[aria-expanded="true"]>span:nth-child(1),.lpm-burger:has(input:checked)>span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+details[open]>.lpm-burger>span:nth-child(2),.lpm-burger[aria-expanded="true"]>span:nth-child(2),.lpm-burger:has(input:checked)>span:nth-child(2){opacity:0;transform:scaleX(.2)}
+details[open]>.lpm-burger>span:nth-child(3),.lpm-burger[aria-expanded="true"]>span:nth-child(3),.lpm-burger:has(input:checked)>span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.lpm-burger>span{transition:none}}
+
+/* M-10 スクロールで出現（JS が data-lpm-ready を付けたときだけ隠す） */
+[data-lpm-reveal][data-lpm-ready]{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--lpm-delay,0ms)}
+[data-lpm-reveal][data-lpm-ready]:not(.is-in){opacity:0;transform:translateY(32px)}
+[data-lpm-reveal="fade"][data-lpm-ready]:not(.is-in){transform:none}
+[data-lpm-reveal="left"][data-lpm-ready]:not(.is-in){transform:translateX(-40px)}
+[data-lpm-reveal="right"][data-lpm-ready]:not(.is-in){transform:translateX(40px)}
+[data-lpm-reveal="zoom"][data-lpm-ready]:not(.is-in){transform:scale(.92)}
+
+/* M-11 数字のカウントアップ：見た目の指定は不要（JSだけで動きます） */
+
+/* M-12 ヘッダーの縮小と影（.is-scrolled のときの見た目はサイトに合わせて調整） */
+[data-lpm-header]{position:sticky;top:0;z-index:30;--lpm-header-pad:18px;transition:box-shadow .25s ease,background-color .25s ease}
+[data-lpm-header]>*{transition:padding .25s ease}
+[data-lpm-header].is-scrolled{--lpm-header-pad:8px;background-color:rgba(255,255,255,.92);box-shadow:0 2px 14px rgba(20,30,28,.1);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+@media (prefers-reduced-motion:reduce){[data-lpm-header],[data-lpm-header]>*{transition:none}}
+
+/* M-13 ページトップへ戻るボタン */
+.lpm-totop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;width:48px;height:48px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--lpm-ink);color:#fff;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .25s ease,transform .25s ease,visibility .25s}
+.lpm-totop.is-shown{opacity:1;visibility:visible;transform:none}
+.lpm-totop svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lpm-totop:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:3px}
+
+/* M-14 クリックの波紋 */
+[data-lpm-ripple]{position:relative;overflow:hidden}
+.lpm-ripple__dot{position:absolute;border-radius:50%;background:currentColor;opacity:.28;transform:scale(0);pointer-events:none;animation:lpm-ripple .6s ease-out forwards}
+@keyframes lpm-ripple{to{transform:scale(1);opacity:0}}
+
+/* M-15 カーソルに吸い寄せられるボタン */
+[data-lpm-magnet]{transition:transform .3s cubic-bezier(.2,.8,.2,1);will-change:transform}
+
+/* M-16 立体的に傾くカード */
+[data-lpm-tilt]{position:relative;transform:perspective(800px) rotateX(var(--lpm-rx,0deg)) rotateY(var(--lpm-ry,0deg));transition:transform .45s ease}
+[data-lpm-tilt].is-tilting{transition:transform .08s linear}
+[data-lpm-tilt]::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--lpm-gx,50%) var(--lpm-gy,50%),rgba(255,255,255,.35),transparent 55%);opacity:0;pointer-events:none;transition:opacity .3s ease}
+[data-lpm-tilt].is-tilting::after{opacity:1}
+
+/* M-17 モーダル */
+.lpm-modal{width:min(560px,calc(100% - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:14px;background:#fff;color:var(--lpm-ink);box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.lpm-modal::backdrop{background:rgba(20,24,23,.55)}
+.lpm-modal__body{padding:28px}
+.lpm-modal[open]{animation:lpm-modal-in .28s cubic-bezier(.2,.8,.2,1)}
+.lpm-modal[open]::backdrop{animation:lpm-backdrop-in .28s ease}
+.lpm-modal.is-closing{animation:lpm-modal-out .2s ease-in forwards}
+.lpm-modal.is-closing::backdrop{animation:lpm-backdrop-out .2s ease-in forwards}
+@keyframes lpm-modal-in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes lpm-modal-out{to{opacity:0;transform:translateY(8px) scale(.98)}}
+@keyframes lpm-backdrop-in{from{opacity:0}}
+@keyframes lpm-backdrop-out{to{opacity:0}}
+@media (prefers-reduced-motion:reduce){.lpm-modal[open],.lpm-modal[open]::backdrop{animation:none}}
+
+/* M-18 タブ（見た目の例） */
+[data-lpm-tabs] [role="tablist"]{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--lp-line,#D9DEDC)}
+[data-lpm-tabs] [role="tab"]{margin-bottom:-1px;padding:10px 16px;border:0;border-bottom:2px solid transparent;background:none;color:var(--lp-muted,#56605D);font:inherit;font-weight:700;cursor:pointer}
+[data-lpm-tabs] [role="tab"][aria-selected="true"]{border-color:var(--lpm-accent);color:var(--lpm-ink)}
+[data-lpm-tabs] [role="tab"]:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:-2px}
+[data-lpm-tabs] [role="tabpanel"]{padding:16px 4px;animation:lpm-fade-in .3s ease}
+@keyframes lpm-fade-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){[data-lpm-tabs] [role="tabpanel"]{animation:none}}
+
+/* M-19 ビフォーアフター比較 */
+.lpm-compare{position:relative;overflow:hidden;aspect-ratio:3/2;border-radius:var(--lp-radius,6px);--lpm-pos:50%}
+.lpm-compare__before,.lpm-compare__after{position:absolute;inset:0}
+.lpm-compare__before img,.lpm-compare__after img{width:100%;height:100%;object-fit:cover;display:block}
+.lpm-compare__after{clip-path:inset(0 0 0 var(--lpm-pos))}
+.lpm-compare__before::after,.lpm-compare__after::after{position:absolute;top:12px;padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:700}
+.lpm-compare__before::after{content:"施工前";left:12px}
+.lpm-compare__after::after{content:"施工後";right:12px}
+.lpm-compare__range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.lpm-compare__handle{position:absolute;top:0;bottom:0;left:var(--lpm-pos);width:2px;background:#fff;transform:translateX(-1px);pointer-events:none}
+.lpm-compare__handle::after{content:"";position:absolute;top:50%;left:50%;width:40px;height:40px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25);transform:translate(-50%,-50%)}
+.lpm-compare__range:focus-visible~.lpm-compare__handle::after{outline:3px solid var(--lpm-accent);outline-offset:2px}
+
+/* M-20 お知らせを閉じる */
+[data-lpm-dismissible]{transition:opacity .25s ease,transform .25s ease}
+[data-lpm-dismissible].is-leaving{opacity:0;transform:translateY(-6px)}
+
+/* M-21 ボタンの浮き上がり */
+.lpm-raise{transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,color .2s ease}
+.lpm-raise:hover,.lpm-raise:focus-visible{transform:translateY(-3px);box-shadow:0 10px 20px rgba(20,30,28,.18)}
+.lpm-raise:active{transform:translateY(0);box-shadow:0 3px 8px rgba(20,30,28,.16);transition-duration:.05s}
+@media (prefers-reduced-motion:reduce){.lpm-raise:hover,.lpm-raise:focus-visible,.lpm-raise:active{transform:none}}
+
+/* M-22 入力エラーの表示（CSSのみ。.lpm-check を付けたフォームの中だけに効く） */
+.lpm-check :is(input,select,textarea):user-invalid{border-color:#B3301D;background-color:#FFF8F6}
+.lpm-check :is(input,select,textarea):user-invalid:focus{outline:none;box-shadow:0 0 0 3px rgba(179,48,29,.18)}
+.lpm-check .lpm-hint-err{display:none;margin:6px 0 0;font-size:12px;font-weight:500;line-height:1.6;color:#B3301D}
+.lpm-check :is([data-lpm-field],.ui-field,.lp-form__row,.lp-fi__field):has(:user-invalid) .lpm-hint-err{display:block}
+
+/* M-23・M-24 入力チェック（JS）のエラー表示 */
+.lpm-err{margin:6px 0 0;font-size:12px;font-weight:500;line-height:1.6;color:#B3301D}
+.lpm-err[hidden]{display:none}
+:is([data-lpm-field],.lp-form__row).is-error :is(input,select,textarea){border-color:#B3301D}
+
+/* M-24 は M-23 と同じ CSS を使います */
+
+/* M-25 文字数カウンター */
+.lpm-charcount{margin:6px 2px 0;font-size:12px;color:var(--lp-muted,#56605D);text-align:right;font-variant-numeric:tabular-nums}
+.lpm-charcount.is-near{color:#8A5300;font-weight:700}
+.lpm-charcount.is-over{color:#B3301D;font-weight:700}
+.lpm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* M-26 非同期送信 */
+.lpm-async-error{margin:12px 0 0;padding:10px 12px;border:1px solid #F1C6BE;border-radius:8px;background:#FDEFEC;color:#B3301D;font-size:13px;line-height:1.7}
+.lpm-async-error[hidden]{display:none}
+form[aria-busy="true"]{cursor:progress}
+form[aria-busy="true"] :is(button,[type="submit"]){opacity:.7}
+
+/* M-27 郵便番号から住所入力 */
+.lpm-zip-status{min-height:1.6em;margin:6px 2px 0;font-size:12px;line-height:1.6;color:var(--lp-muted,#56605D)}
+.lpm-zip-choices{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.lpm-zip-choices[hidden]{display:none}
+.lpm-zip-choices button{width:100%;padding:10px 12px;border:1px solid var(--lp-line,#D9DEDC);border-radius:var(--lp-radius,6px);background:#fff;color:inherit;font:inherit;font-size:14px;text-align:left;cursor:pointer}
+.lpm-zip-choices button:hover{border-color:var(--lpm-accent)}
+.lpm-zip-choices button:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:2px}
+
+/* M-28 ハンバーガーメニューの強化：見た目の指定は不要（JSだけで動きます） */
+
+/* M-29 スクロール方向で隠れるヘッダー */
+[data-lpm-autohide]{position:sticky;top:0;z-index:30;transition:transform .3s ease}
+[data-lpm-autohide].is-hidden{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){[data-lpm-autohide]{transition:none}}
+
+/* M-30 現在地メニューのハイライト */
+[data-lpm-spy] a{position:relative;transition:color .2s ease}
+[data-lpm-spy] a[aria-current="true"]{color:var(--lpm-accent);font-weight:700}
+[data-lpm-spy] a[aria-current="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:currentColor}
+
+/* M-31 ヘッダー分ずらすアンカー移動（--lpm-header-h は固定ヘッダーの高さ） */
+html{scroll-behavior:smooth;scroll-padding-top:var(--lpm-header-h,80px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* M-32 ドロワー（CSSのみ・popover 属性） */
+.lpm-drawer{position:fixed;inset:0 0 0 auto;width:min(340px,86vw);height:100dvh;max-height:none;margin:0;padding:0;border:0;overflow:auto;background:#fff;color:var(--lpm-ink);box-shadow:-12px 0 32px rgba(0,0,0,.18);transform:translateX(100%);transition:transform .3s ease,overlay .3s allow-discrete,display .3s allow-discrete}
+.lpm-drawer:popover-open{transform:none}
+@starting-style{.lpm-drawer:popover-open{transform:translateX(100%)}}
+.lpm-drawer--left{inset:0 auto 0 0;box-shadow:12px 0 32px rgba(0,0,0,.18);transform:translateX(-100%)}
+@starting-style{.lpm-drawer--left:popover-open{transform:translateX(-100%)}}
+.lpm-drawer::backdrop{background-color:rgba(20,24,23,0);transition:background-color .3s ease,overlay .3s allow-discrete,display .3s allow-discrete}
+.lpm-drawer:popover-open::backdrop{background-color:rgba(20,24,23,.45)}
+@starting-style{.lpm-drawer:popover-open::backdrop{background-color:rgba(20,24,23,0)}}
+@media (prefers-reduced-motion:reduce){.lpm-drawer,.lpm-drawer::backdrop{transition:none}}
+
+/* M-33 ドロワー（M-17 のモーダルを横から出す形にする。M-17 の CSS と一緒に使う） */
+.lpm-sheet{position:fixed;inset:0 0 0 auto;width:min(380px,88vw);max-width:none;height:100dvh;max-height:none;margin:0;border-radius:0}
+.lpm-sheet .lpm-modal__body{min-height:100%;box-sizing:border-box}
+.lpm-sheet[open]{animation:lpm-sheet-in .3s cubic-bezier(.2,.8,.2,1)}
+.lpm-sheet.is-closing{animation:lpm-sheet-out .22s ease-in forwards}
+@keyframes lpm-sheet-in{from{transform:translateX(100%)}to{transform:none}}
+@keyframes lpm-sheet-out{to{transform:translateX(100%)}}
+@media (prefers-reduced-motion:reduce){.lpm-sheet[open]{animation:none}}
+
+/* M-34 スクロール進捗バー（CSS が基本、未対応ブラウザは JS が --lpm-progress を入れる） */
+.lpm-progress{position:fixed;top:0;left:0;right:0;z-index:50;height:3px;background:var(--lpm-accent);transform-origin:0 50%;transform:scaleX(var(--lpm-progress,0))}
+@supports (animation-timeline:scroll()){
+  .lpm-progress{animation:lpm-progress linear both;animation-timeline:scroll()}
+}
+@keyframes lpm-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* M-35 横スワイプのカード列（--lpm-card-w でカードの幅、--lpm-pad で左右の余白） */
+.lpm-swipe{display:grid;grid-auto-flow:column;grid-auto-columns:var(--lpm-card-w,min(80%,300px));gap:var(--lpm-gap,16px);margin:0;padding:4px var(--lpm-pad,16px) 14px;list-style:none;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:var(--lpm-pad,16px);scrollbar-width:thin}
+.lpm-swipe>*{scroll-snap-align:start}
+.lpm-swipe:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.lpm-swipe{scroll-behavior:smooth}}
+
+/* M-36 マーカーが引かれる（--lpm-marker で色） */
+.lpm-marker{padding:0 .1em;background-color:transparent;background-image:linear-gradient(transparent 58%,var(--lpm-marker,#FFE27A) 58%);background-repeat:no-repeat;background-size:100% 100%;color:inherit}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .lpm-marker{animation:lpm-marker linear both;animation-timeline:view();animation-range:entry 100% cover 45%}
+  }
+}
+@keyframes lpm-marker{from{background-size:0% 100%}to{background-size:100% 100%}}
+[data-lpm-reveal] .lpm-marker{animation:none;transition:background-size .9s ease .4s}
+[data-lpm-reveal][data-lpm-ready]:not(.is-in) .lpm-marker{background-size:0% 100%}
+@media (prefers-reduced-motion:reduce){[data-lpm-reveal] .lpm-marker{transition:none}}
+
+/* M-37 1文字ずつ出る（--lpm-step で1文字ごとの間隔） */
+.lpm-chars .lpm-chars__c{display:inline-block;opacity:0;transform:translateY(.45em);animation:lpm-char-in .5s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * var(--lpm-step,40ms))}
+.lpm-chars[data-lpm-ready]:not(.is-in) .lpm-chars__c{animation:none}
+@keyframes lpm-char-in{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.lpm-chars .lpm-chars__c{opacity:1;transform:none;animation:none}}
+.lpm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* M-38 SVGの線が描かれる（線の要素に pathLength="1" が必要） */
+.lpm-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:lpm-draw var(--lpm-draw-time,1.4s) ease var(--lpm-draw-delay,0s) forwards}
+@keyframes lpm-draw{to{stroke-dashoffset:0}}
+@supports (animation-timeline:view()){
+  .lpm-draw-scroll{view-timeline-name:--lpm-draw}
+  .lpm-draw-scroll .lpm-draw{animation:lpm-draw linear both;animation-timeline:--lpm-draw;animation-range:entry 100% cover 50%}
+}
+[data-lpm-reveal][data-lpm-ready]:not(.is-in) .lpm-draw{animation:none}
+@media (prefers-reduced-motion:reduce){.lpm-draw,.lpm-draw-scroll .lpm-draw{stroke-dashoffset:0;animation:none}}
+
+/* M-39 画像の遅延読み込みとフェード（--lpm-img-bg で読み込み中の背景） */
+.lpm-img{position:relative;overflow:hidden;background:var(--lpm-img-bg,#E3E7E5) center/cover no-repeat}
+.lpm-img>img{display:block;width:100%;height:100%;object-fit:cover}
+.lpm-img>img[data-lpm-ready]{opacity:0;transition:opacity .6s ease}
+.lpm-img>img[data-lpm-ready].is-loaded{opacity:1}
+.lpm-img--shimmer:has(img[data-lpm-ready]:not(.is-loaded))::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-100%);animation:lpm-shimmer 1.3s ease-in-out infinite}
+@keyframes lpm-shimmer{to{transform:translateX(100%)}}
+.lpm-img.is-error::after{content:"画像を読み込めませんでした";position:absolute;inset:0;display:grid;place-items:center;font-size:12px;color:var(--lp-muted,#56605D)}
+@media (prefers-reduced-motion:reduce){.lpm-img>img[data-lpm-ready]{transition:none}.lpm-img--shimmer::before{animation:none!important;display:none}}
+
+/* M-40 トースト通知（出入りの動き。見た目は UI-09） */
+.ui-toast{animation:lpm-toast-in .25s cubic-bezier(.2,.8,.2,1)}
+.ui-toast.is-leaving{animation:lpm-toast-out .2s ease-in forwards}
+@keyframes lpm-toast-in{from{opacity:0;transform:translateY(12px)}}
+@keyframes lpm-toast-out{to{opacity:0;transform:translateX(16px)}}
+@media (prefers-reduced-motion:reduce){.ui-toast,.ui-toast.is-leaving{animation:none}}
+.lpm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* M-41 クリックで開くポップオーバー */
+.lpm-pop{max-width:min(320px,calc(100vw - 16px));margin:auto;padding:14px 16px;border:1px solid var(--lp-line,#D9DEDC);border-radius:10px;background:#fff;color:var(--lpm-ink);box-shadow:0 12px 32px rgba(20,30,28,.16);font-size:14px;line-height:1.7}
+.lpm-pop>:first-child{margin-top:0}.lpm-pop>:last-child{margin-bottom:0}
+.lpm-pop[data-lpm-ready]{position:fixed;inset:auto;margin:0}
+.lpm-pop:popover-open{animation:lpm-pop-in .18s ease-out}
+.lpm-pop.is-above:popover-open{animation-name:lpm-pop-in-up}
+@keyframes lpm-pop-in{from{opacity:0;transform:translateY(-4px)}}
+@keyframes lpm-pop-in-up{from{opacity:0;transform:translateY(4px)}}
+.lpm-pop-btn{display:inline-flex;align-items:center;gap:4px;padding:0;border:0;border-bottom:1px dashed currentColor;background:none;color:var(--lpm-accent);font:inherit;cursor:pointer}
+.lpm-pop-btn:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.lpm-pop:popover-open{animation:none}}
+
+/* M-42 JSなしで開くモーダル（見た目は M-17 の .lpm-modal） */
+html:has(dialog[data-lpm-lock][open]){overflow:hidden}
+
+/* M-43 ドロップダウンメニュー（見た目は NV-03。ほかの部品では data-lpm-dropdown） */
+[data-lpm-dropdown]{position:relative}
+[data-lpm-dropdown][data-lpm-ready]>button[aria-expanded="false"]+*{display:none}
+:is(.lp-dd,[data-lpm-dropdown])>button[aria-expanded="true"]+*{animation:lpm-dd-in .18s ease-out}
+@keyframes lpm-dd-in{from{opacity:0;transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){:is(.lp-dd,[data-lpm-dropdown])>button[aria-expanded="true"]+*{animation:none}}
+
+/* M-44 スライダー（--lpm-per で1画面の枚数、--lpm-gap で間隔） */
+.lpm-slider{--lpm-per:1;--lpm-gap:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.lpm-slider__track{display:flex;gap:var(--lpm-gap);margin:0;padding:0 0 4px;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain}
+.lpm-slider[data-lpm-ready] .lpm-slider__track{scrollbar-width:none}
+.lpm-slider[data-lpm-ready] .lpm-slider__track::-webkit-scrollbar{display:none}
+.lpm-slider__track:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:4px}
+.lpm-slider__slide{flex:0 0 calc((100% - (var(--lpm-per) - 1) * var(--lpm-gap)) / var(--lpm-per));min-width:0;scroll-snap-align:start}
+.lpm-slider__controls{display:none;align-items:center;justify-content:flex-end;gap:6px}
+.lpm-slider[data-lpm-ready] .lpm-slider__controls{display:flex}
+.lpm-slider__prev,.lpm-slider__next,.lpm-slider__play{min-width:40px;height:40px;display:grid;place-items:center;padding:0 10px;border:1px solid var(--lp-line,#D9DEDC);border-radius:999px;background:#fff;color:var(--lpm-ink);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.lpm-slider__play{margin-right:auto}
+.lpm-slider__play[hidden]{display:none}
+.lpm-slider__prev svg,.lpm-slider__next svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lpm-slider__dots{display:flex;align-items:center}
+.lpm-slider__dot{width:24px;height:40px;display:grid;place-items:center;padding:0;border:0;background:none;cursor:pointer}
+.lpm-slider__dot::before{content:"";width:8px;height:8px;border-radius:999px;background:#B9C1BE;transition:width .2s ease,background-color .2s ease}
+.lpm-slider__dot[aria-current="true"]::before{width:18px;background:var(--lpm-accent)}
+.lpm-slider :is(button):focus-visible{outline:2px solid var(--lpm-accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.lpm-slider__dot::before{transition:none}}
+
+/* M-45 パララックス（--lpm-shift で動く量。枠は overflow:clip で、スクロールの箱にしない） */
+.lpm-parallax-frame{position:relative;overflow:clip;view-timeline-name:--lpm-px}
+.lpm-parallax{display:block;width:100%;height:calc(100% + var(--lpm-shift,40px) * 2);margin-top:calc(var(--lpm-shift,40px) * -1);object-fit:cover;transform:translateY(calc(var(--lpm-y,0) * var(--lpm-shift,40px)))}
+@supports (animation-timeline:view()){
+  .lpm-parallax{animation:lpm-parallax linear both;animation-timeline:--lpm-px}
+}
+@keyframes lpm-parallax{from{transform:translateY(calc(var(--lpm-shift,40px) * -1))}to{transform:translateY(var(--lpm-shift,40px))}}
+@media (prefers-reduced-motion:reduce){.lpm-parallax{animation:none;transform:none}}
+
+/* M-46 見出しがスクロールで止まる（--lpm-sticky-top は固定ヘッダーの高さ） */
+.lpm-sticky-head{position:sticky;top:var(--lpm-sticky-top,0px);z-index:5;background:var(--lpm-sticky-bg,var(--lp-bg,#fff))}
+.lpm-sticky-side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,4vw,48px);align-items:start}
+.lpm-sticky-side>:first-child{position:sticky;top:calc(var(--lpm-sticky-top,0px) + 24px)}
+@media (max-width:640px){.lpm-sticky-side{grid-template-columns:minmax(0,1fr)}.lpm-sticky-side>:first-child{position:static}}
+
+/* M-47 セクションごとにぴたっと止まる */
+.lpm-snap{height:var(--lpm-snap-h,100dvh);overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior-y:contain}
+.lpm-snap>*{min-height:100%;scroll-snap-align:start}
+.lpm-snap:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:-2px}
+html.lpm-snap-page{scroll-snap-type:y proximity}
+html.lpm-snap-page body>section,html.lpm-snap-page main>section{scroll-snap-align:start}
+@media (prefers-reduced-motion:reduce){.lpm-snap{scroll-behavior:auto}}
+
+/* M-48 固定したまま中身が切り替わる（6ステップまで。--lpm-scene-h は図の高さ、--lpm-step-h は説明1つ分の高さ） */
+.lpm-scene{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
+.lpm-scene__stage{position:sticky;top:var(--lpm-scene-top,0px);height:var(--lpm-scene-h,100vh);display:grid;align-items:center}
+.lpm-scene__panel{grid-area:1/1;transition:opacity .45s ease}
+.lpm-scene__panel:not(:first-child){opacity:0}
+.lpm-scene__step{min-height:var(--lpm-step-h,75vh);display:flex;flex-direction:column;justify-content:center;transition:opacity .3s ease}
+@supports (timeline-scope:--a){
+  .lpm-scene:not([data-lpm-ready]){timeline-scope:--lpm-s1,--lpm-s2,--lpm-s3,--lpm-s4,--lpm-s5,--lpm-s6}
+  .lpm-scene:not([data-lpm-ready]) .lpm-scene__panel{opacity:0;animation:lpm-scene-show linear none}
+  /* 上の animation（まとめ書き）がタイムラインを戻さないよう、以下は詳細度を上げて後に書く */
+  .lpm-scene__step:nth-child(1){view-timeline-name:--lpm-s1}.lpm-scene:not([data-lpm-ready]) .lpm-scene__panel:nth-child(1){animation-timeline:--lpm-s1}
+  .lpm-scene__step:nth-child(2){view-timeline-name:--lpm-s2}.lpm-scene:not([data-lpm-ready]) .lpm-scene__panel:nth-child(2){animation-timeline:--lpm-s2}
+  .lpm-scene__step:nth-child(3){view-timeline-name:--lpm-s3}.lpm-scene:not([data-lpm-ready]) .lpm-scene__panel:nth-child(3){animation-timeline:--lpm-s3}
+  .lpm-scene__step:nth-child(4){view-timeline-name:--lpm-s4}.lpm-scene:not([data-lpm-ready]) .lpm-scene__panel:nth-child(4){animation-timeline:--lpm-s4}
+  .lpm-scene__step:nth-child(5){view-timeline-name:--lpm-s5}.lpm-scene:not([data-lpm-ready]) .lpm-scene__panel:nth-child(5){animation-timeline:--lpm-s5}
+  .lpm-scene__step:nth-child(6){view-timeline-name:--lpm-s6}.lpm-scene:not([data-lpm-ready]) .lpm-scene__panel:nth-child(6){animation-timeline:--lpm-s6}
+  .lpm-scene:not([data-lpm-ready]) .lpm-scene__panel:nth-child(n){animation-range:cover 30% cover 70%}
+}
+@keyframes lpm-scene-show{0%,100%{opacity:0}15%,85%{opacity:1}}
+.lpm-scene[data-lpm-ready] .lpm-scene__panel{opacity:0;animation:none}
+.lpm-scene[data-lpm-ready] .lpm-scene__panel.is-active{opacity:1}
+.lpm-scene[data-lpm-ready] .lpm-scene__step:not(.is-active){opacity:.4}
+@media (max-width:640px){
+  .lpm-scene{grid-template-columns:minmax(0,1fr);gap:0}
+  .lpm-scene__stage{z-index:1;height:var(--lpm-scene-h-sp,40vh);background:var(--lp-bg,#fff)}
+}
+@media (prefers-reduced-motion:reduce){.lpm-scene__panel,.lpm-scene__step{transition:none}}
+
+/* M-49 光がゆらぐグラデーション背景（HR-03 の光を汎用化） */
+.lpm-glow{position:relative;isolation:isolate;overflow:hidden}
+.lpm-glow::before,.lpm-glow::after{content:"";position:absolute;z-index:-1;width:var(--lpm-glow-size,70%);aspect-ratio:1;border-radius:50%;filter:blur(10px);pointer-events:none;animation:lpm-glow-drift var(--lpm-glow-time,14s) ease-in-out infinite alternate}
+.lpm-glow::before{top:-30%;right:-10%;background:radial-gradient(circle,var(--lpm-glow-1,rgba(96,140,255,.45)),rgba(255,255,255,0) 65%)}
+.lpm-glow::after{bottom:-40%;left:-15%;background:radial-gradient(circle,var(--lpm-glow-2,rgba(31,107,87,.32)),rgba(255,255,255,0) 65%);animation-duration:calc(var(--lpm-glow-time,14s) * 1.3);animation-direction:alternate-reverse}
+@keyframes lpm-glow-drift{to{transform:translate(-18%,12%) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.lpm-glow::before,.lpm-glow::after{animation:none}}
+
+/* M-50 ふわふわ浮かぶ図形（--s 大きさ / --c 色 / --x・--y 動く距離 / --r 回転 / --t 周期 / --d 遅れ） */
+.lpm-float{position:relative;isolation:isolate;overflow:hidden}
+.lpm-float__shape{position:absolute;z-index:-1;width:var(--s,64px);aspect-ratio:1;border-radius:50%;background:var(--c,color-mix(in srgb,var(--lpm-accent) 16%,transparent));pointer-events:none;animation:lpm-float var(--t,9s) ease-in-out var(--d,0s) infinite alternate}
+.lpm-float__shape--square{border-radius:22%}
+.lpm-float__shape--ring{background:none;border:var(--w,6px) solid var(--c,color-mix(in srgb,var(--lpm-accent) 22%,transparent))}
+@keyframes lpm-float{from{transform:translate(0,0) rotate(0deg)}to{transform:translate(var(--x,10px),var(--y,-22px)) rotate(var(--r,18deg))}}
+@media (prefers-reduced-motion:reduce){.lpm-float__shape{animation:none}}
+
+/* M-51 背景動画の一時停止（ボタンの見た目は HR-05） */
+[data-lpm-video]:not([data-lpm-ready]) [data-lpm-video-toggle]{display:none}
+[data-lpm-video] .lpm-ico-play,[data-lpm-video].is-paused .lpm-ico-pause{display:none}
+[data-lpm-video].is-paused .lpm-ico-play{display:block}
+
+/* M-52 ローディング画面（4秒の安全装置つき。--lpm-loader-bg で背景色） */
+.lpm-loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--lpm-loader-bg,var(--lp-bg,#fff));animation:lpm-loader-safety .4s ease 4s forwards}
+.lpm-loader.is-done{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s ease,visibility 0s .45s;animation:none}
+@keyframes lpm-loader-safety{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media (prefers-reduced-motion:reduce){.lpm-loader.is-done{transition:none}}
+
+/* M-53 ページ切り替えのアニメーション
+   ページをまたぐ遷移は、使うページの CSS で次の1行を有効にする（移動前・移動後の両方）
+   @view-transition{navigation:auto} */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+
+/* M-54 ダークモード（<html class="lpm-theme"> に付ける。色は --lp-* 変数で切り替わる） */
+.lpm-theme{color-scheme:light;background:var(--lp-bg,#fff);color:var(--lp-ink,#1D2125)}
+.lpm-theme[data-theme="dark"]{color-scheme:dark;--lp-bg:#131715;--lp-ink:#E6EBE8;--lp-soft:#1D2320;--lp-line:#323B37;--lp-muted:#A2ADA8;--lp-accent:#5DB898;--lpm-accent:#5DB898;--lpm-ink:#E6EBE8}
+@media (prefers-color-scheme:dark){
+  .lpm-theme:not([data-theme="light"]){color-scheme:dark;--lp-bg:#131715;--lp-ink:#E6EBE8;--lp-soft:#1D2320;--lp-line:#323B37;--lp-muted:#A2ADA8;--lp-accent:#5DB898;--lpm-accent:#5DB898;--lpm-ink:#E6EBE8}
+}
+.lpm-theme-switch{display:inline-flex;margin:0;padding:3px;border:1px solid var(--lp-line,#D9DEDC);border-radius:999px;background:var(--lp-soft,#F2F4F3)}
+.lpm-theme-switch:not([data-lpm-ready]){display:none}
+.lpm-theme-switch label{position:relative;cursor:pointer}
+.lpm-theme-switch input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.lpm-theme-switch span{display:block;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;color:var(--lp-muted,#56605D);transition:background-color .2s ease,color .2s ease}
+.lpm-theme-switch input:checked+span{background:var(--lp-bg,#fff);color:var(--lp-ink,#1D2125);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.lpm-theme-switch input:focus-visible+span{outline:2px solid var(--lp-accent,#1F6B57);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.lpm-theme-switch span{transition:none}}
+.lpm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* M-55 クリップボードにコピー */
+[data-lpm-copy].is-copied{background:var(--lp-soft,#F2F4F3);color:var(--lpm-accent);border-color:var(--lpm-accent)}
+.lpm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* M-56 スピナー（--lpm-spinner-size で大きさ。色は文字色） */
+.lpm-spinner{--lpm-spinner-size:24px;display:inline-block;flex:none;width:var(--lpm-spinner-size);height:var(--lpm-spinner-size);border:max(2px,calc(var(--lpm-spinner-size) / 9)) solid color-mix(in srgb,currentColor 22%,transparent);border-top-color:currentColor;border-radius:50%;color:var(--lpm-accent);vertical-align:middle;animation:lpm-spin .8s linear infinite}
+.lpm-spinner--s{--lpm-spinner-size:16px}
+.lpm-spinner--m{--lpm-spinner-size:24px}
+.lpm-spinner--l{--lpm-spinner-size:40px}
+.lpm-spinner--xl{--lpm-spinner-size:64px}
+.lpm-spinner--inline{--lpm-spinner-size:1em;color:inherit;margin-right:.4em;vertical-align:-.15em}
+@keyframes lpm-spin{to{transform:rotate(360deg)}}
+@keyframes lpm-spin-pulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.lpm-spinner{animation:lpm-spin-pulse 1.6s ease-in-out infinite}}
+.lpm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* M-57 流れるグラデーション文字（--lpm-grad-1〜3 で色、--lpm-grad-time で速さ） */
+.lpm-grad-text{color:var(--lpm-grad-1,#1F6B57)}
+@supports (background-clip:text) or (-webkit-background-clip:text){
+  .lpm-grad-text{background:linear-gradient(90deg,var(--lpm-grad-1,#1F6B57),var(--lpm-grad-2,#2F7FA3),var(--lpm-grad-3,#9A5B12),var(--lpm-grad-1,#1F6B57)) 0 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:lpm-grad-flow var(--lpm-grad-time,6s) linear infinite}
+}
+@keyframes lpm-grad-flow{to{background-position:150% 0}}
+@media (prefers-reduced-motion:reduce){.lpm-grad-text{animation:none}}
+@media (forced-colors:active){.lpm-grad-text{background:none;color:CanvasText}}
+
+/* M-58 決まった角度に傾くカード（CSSのみ） */
+.lpm-tilt-css{transform:perspective(900px);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease}
+@media (hover:hover){
+  .lpm-tilt-css:hover,.lpm-tilt-css:focus-within{transform:perspective(900px) rotateX(var(--lpm-tilt-x,5deg)) rotateY(var(--lpm-tilt-y,-7deg)) translateY(-4px);box-shadow:0 18px 36px rgba(20,30,28,.16)}
+}
+.lpm-tilt-css--left{--lpm-tilt-y:7deg}
+@media (prefers-reduced-motion:reduce){.lpm-tilt-css,.lpm-tilt-css:hover,.lpm-tilt-css:focus-within{transform:none;transition:box-shadow .2s ease}}
+
+/* M-59 スクロールで背景が付くヘッダー（CSS版。--lpm-header-range で変化する距離） */
+.lpm-header-css{position:sticky;top:0;z-index:50;background:var(--lpm-header-bg,rgba(255,255,255,.96));box-shadow:0 1px 0 var(--lp-line,#D9DEDC)}
+@supports (animation-timeline:scroll()){
+  .lpm-header-css{background:transparent;box-shadow:none;animation:lpm-header-bg linear both;animation-timeline:scroll();animation-range:0 var(--lpm-header-range,80px)}
+}
+@keyframes lpm-header-bg{to{background:var(--lpm-header-bg,rgba(255,255,255,.96));box-shadow:0 1px 0 var(--lp-line,#D9DEDC),0 6px 20px rgba(20,30,28,.06)}}
+@media (prefers-reduced-motion:reduce){.lpm-header-css{animation:none;background:var(--lpm-header-bg,rgba(255,255,255,.96));box-shadow:0 1px 0 var(--lp-line,#D9DEDC)}}
+
+/* M-60 クリックの波紋（CSS版。--lpm-ripple-color で色） */
+:is(button,a).lpm-ripple-css{position:relative;overflow:hidden;isolation:isolate}
+:is(button,a).lpm-ripple-css::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle,var(--lpm-ripple-color,rgba(255,255,255,.45)) 10%,transparent 10.5%) 50% 50%/1200% 1200% no-repeat;opacity:0;pointer-events:none;transition:background-size .6s ease-out,opacity .8s ease-out}
+:is(button,a).lpm-ripple-css:active::after{background-size:0 0;opacity:1;transition:0s}
+@media (prefers-reduced-motion:reduce){:is(button,a).lpm-ripple-css::after{display:none}}
+
+/* M-61 条件で表示を変える（:has() の例） */
+@supports selector(:has(*)){
+  .lpm-if .lpm-if__target{display:none}
+  .lpm-if:has(.lpm-if__trigger:checked) .lpm-if__target{display:block;animation:lpm-if-in .2s ease-out}
+}
+@keyframes lpm-if-in{from{opacity:0;transform:translateY(-4px)}}
+.lpm-pick{display:flex;align-items:center;gap:8px;padding:12px 14px;border:1px solid var(--lp-line,#D9DEDC);border-radius:10px;cursor:pointer;transition:border-color .15s ease,background-color .15s ease}
+.lpm-pick:has(input:checked){border-color:var(--lpm-accent);background:color-mix(in srgb,var(--lpm-accent) 7%,transparent);box-shadow:inset 0 0 0 1px var(--lpm-accent)}
+.lpm-pick:has(input:focus-visible){outline:2px solid var(--lpm-accent);outline-offset:2px}
+.lpm-empty:not(:has(>:not([hidden])))::before{content:attr(data-lpm-empty);display:block;padding:20px;border:1px dashed var(--lp-line,#D9DEDC);border-radius:10px;color:var(--lp-muted,#56605D);font-size:14px;text-align:center}
+@media (prefers-reduced-motion:reduce){.lpm-if:has(.lpm-if__trigger:checked) .lpm-if__target{animation:none}.lpm-pick{transition:none}}
+
+/* M-62 パスワードの表示切り替え */
+.lpm-pass{position:relative;display:block}
+.lpm-pass>.lpm-pass__input{padding-right:48px}
+.lpm-pass__input::-ms-reveal{display:none}
+.lpm-pass__btn{position:absolute;top:50%;right:4px;width:40px;height:40px;display:grid;place-items:center;padding:0;border:0;border-radius:6px;background:none;color:var(--lp-muted,#56605D);cursor:pointer;transform:translateY(-50%)}
+.lpm-pass__btn:hover{color:var(--lpm-ink)}
+.lpm-pass__btn:focus-visible{outline:2px solid var(--lpm-accent);outline-offset:-2px}
+.lpm-pass__btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lpm-pass__hide,.lpm-pass.is-shown .lpm-pass__show{display:none}
+.lpm-pass.is-shown .lpm-pass__hide{display:block}

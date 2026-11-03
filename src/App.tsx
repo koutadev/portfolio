@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { lpmCount, lpmModal, lpmReveal, lpmScrollSpy } from 'lp-motion'
+import { lpmCount, lpmModal, lpmReveal, lpmScrollSpy } from './vendor/lp-motion/lp-motion.mjs'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import About from './components/About'
