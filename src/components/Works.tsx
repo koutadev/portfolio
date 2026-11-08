@@ -268,6 +268,35 @@ const projects: Project[] = [
       { label: 'GitHub →', href: 'https://github.com/koutadev/studyflow' },
     ],
   },
+  {
+    badges: [{ text: 'New', featured: true }, { text: 'Frontend' }],
+    id: 'portfolio-desk',
+    title: 'portfolio-desk',
+    summary: 'パソコンのデスクトップを模したポートフォリオ。ウィンドウ操作を外部ライブラリなしで実装。',
+    sections: [
+      {
+        label: '課題',
+        body: '作品を縦に並べるだけのポートフォリオでは、どれも似た見た目になり印象に残りにくい。かといって凝った演出を入れると、表示の重さや操作のしにくさ、読み上げなどのアクセシビリティが犠牲になりやすい。',
+      },
+      {
+        label: 'アプローチ / 設計判断',
+        body: '画面全体をパソコンのデスクトップに見立て、About・制作物・スキル・問い合わせをアプリのウィンドウとして開く構成にした。ページは Astro で静的に書き出し、問い合わせフォームだけを Vercel のサーバー側（Resend で送信）で動かす。ウィンドウの移動・最小化・アニメーションは外部ライブラリを使わず素の TypeScript で実装。各作品で「作らなかったもの」とその理由をゴミ箱に残し、判断の過程も見せるようにした。',
+      },
+      {
+        label: '結果',
+        body: '起動時のログイン画面から、ウィンドウを開いて作品を見て回れるサイトとして公開。キーボードだけで全操作でき（矢印キーで移動、Esc で閉じる）、「動きを減らす」設定ではアニメーションを止め、JavaScript が動かない環境でも中身を読める。幅 820px 以下ではスマホのホーム画面風に切り替わる。',
+      },
+      {
+        label: '設計ハイライト',
+        body: '最小化したときのボタン位置を覚えて次回同じ位置に開くウィンドウ管理／ウィンドウを細い帯に切って縮める最小化アニメーション／滞在時間で朝→夜と変わる壁紙／作品ごとに単独で共有できる個別ページ／問い合わせのスパム対策（見えない入力欄）。',
+      },
+    ],
+    tags: ['Astro 5', 'TypeScript', 'CSS', 'Vercel', 'Resend'],
+    links: [
+      { label: 'Live Demo →', href: 'https://portfolio-desk-chi.vercel.app' },
+      { label: 'GitHub →', href: 'https://github.com/koutadev/portfolio-desk' },
+    ],
+  },
 ]
 
 const groups: { label: string; items: Project[] }[] = [
